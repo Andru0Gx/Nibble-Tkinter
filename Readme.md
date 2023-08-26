@@ -20,21 +20,21 @@
 ## Diseño de las pantallas
 
 <div align="center">
-    <img src="recursos-readme/Pantalla-1.jpg" alt="Pantalla de seleccion de modo" width = 250 title= "Pantalla de seleccion de modo"/>
-    <img src="recursos-readme/Pantalla-2.jpg" alt="Pantalla de inicio de sesion" width = 250 title= "Pantalla de inicio de sesion" />
-    <img src="recursos-readme/Pantalla-3.jpg" alt="Pantalla de registro" width = 250 title= "Pantalla de registro"/>
-    <img src="recursos-readme/Pantalla-4.jpg" alt="Pantalla de recuperar usuario" width = 250 title= "Pantalla de recuperar usuario"/>
-    <img src="recursos-readme/Pantalla-5.jpg" alt="Pantalla de recuperar contraseña" width = 250 title= "Pantalla de recuperar contraseña"/>
+    <img src="recursos-readme/Pantalla-1.jpg" alt="Pantalla de seleccion de modo" width = 400 title= "Pantalla de seleccion de modo"/>
+    <img src="recursos-readme/Pantalla-2.jpg" alt="Pantalla de inicio de sesion" width = 400 title= "Pantalla de inicio de sesion" />
+    <img src="recursos-readme/Pantalla-3.jpg" alt="Pantalla de registro" width = 400 title= "Pantalla de registro"/>
+    <img src="recursos-readme/Pantalla-4.jpg" alt="Pantalla de recuperar usuario" width = 400 title= "Pantalla de recuperar usuario"/>
+    <img src="recursos-readme/Pantalla-5.jpg" alt="Pantalla de recuperar contraseña" width = 400 title= "Pantalla de recuperar contraseña"/>
 </div>
 
 <div align="center">
-    <img src="recursos-readme/Pantalla-6.jpg" alt="Pantalla de inicio" width = 250 title= "Pantalla de inicio"/>
-    <img src="recursos-readme/Pantalla-7.jpg" alt="Pantalla de profesores" width = 250 title= "Pantalla de profesores"/>
-    <img src="recursos-readme/Pantalla-8.jpg" alt="Pantalla de estudiantes" width = 250 title= "Pantalla de estudiantes"/>
-    <img src="recursos-readme/Pantalla-9.jpg" alt="Vista formulario" width = 250 title= "Vista formulario"/>
-    <img src="recursos-readme/Pantalla-10.jpg" alt="vista tabla" width = 250 title= "Vista tabla"/>
-    <img src="recursos-readme/Pantalla-11.jpg" alt="Pantalla horarios" width = 250 title= "Pantalla de horarios"/>
-    <img src="recursos-readme/Pantalla-12.jpg" alt="Pantalla de configuraciones" width = 250 title= "Pantalla de Configuraciones"/>
+    <img src="recursos-readme/Pantalla-6.jpg" alt="Pantalla de inicio" width = 400 title= "Pantalla de inicio"/>
+    <img src="recursos-readme/Pantalla-7.jpg" alt="Pantalla de profesores" width = 400 title= "Pantalla de profesores"/>
+    <img src="recursos-readme/Pantalla-8.jpg" alt="Pantalla de estudiantes" width = 400 title= "Pantalla de estudiantes"/>
+    <img src="recursos-readme/Pantalla-9.jpg" alt="Vista formulario" width = 400 title= "Vista formulario"/>
+    <img src="recursos-readme/Pantalla-10.jpg" alt="vista tabla" width = 400 title= "Vista tabla"/>
+    <img src="recursos-readme/Pantalla-11.jpg" alt="Pantalla horarios" width = 400 title= "Pantalla de horarios"/>
+    <img src="recursos-readme/Pantalla-12.jpg" alt="Pantalla de configuraciones" width = 400 title= "Pantalla de Configuraciones"/>
 </div>
 
 ----
@@ -45,7 +45,7 @@
   <img src="https://avatars.githubusercontent.com/u/95187524?v=4" width=50>
 </a>
 <a href="https://github.com/Josue-Urbano">
-  <img src="https://avatars.githubusercontent.com/u/117106250?v=4" width=50 style="border-radius: 50%">
+  <img src="https://avatars.githubusercontent.com/u/117106400?v=4" width=50 style="border-radius: 50%">
 </a>
 <a href="https://github.com/ExodialGamer">
   <img src="https://avatars.githubusercontent.com/u/71797766?v=4" width=50 style="border-radius: 50%">
