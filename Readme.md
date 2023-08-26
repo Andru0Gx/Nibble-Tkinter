@@ -37,8 +37,6 @@
     <img src="recursos-readme/Pantalla-12.jpg" alt="Pantalla de configuraciones" width = 400 title= "Pantalla de Configuraciones"/>
 </div>
 
-----
-
 <h1 align="center">Desarrolladores</h1>
 
 <a href="https://github.com/Andru0Gx">
