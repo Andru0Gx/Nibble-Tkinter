@@ -42,8 +42,8 @@
 <a href="https://github.com/Andru0Gx">
   <img src="https://avatars.githubusercontent.com/u/95187524?v=4" width=50>
 </a>
-<a href="https://github.com/Josue-Urbano">
-  <img src="https://avatars.githubusercontent.com/u/117106400?v=4" width=50 style="border-radius: 50%">
+<a href="https://github.com/Jose-Urbano">
+  <img src="https://avatars.githubusercontent.com/u/117106250?v=4" width=50 style="border-radius: 50%">
 </a>
 <a href="https://github.com/ExodialGamer">
   <img src="https://avatars.githubusercontent.com/u/71797766?v=4" width=50 style="border-radius: 50%">
