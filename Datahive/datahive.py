@@ -6,6 +6,29 @@ import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, button_frame, top_level # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
+#$------------------------ Functions
+def get_data():
+    '''Get data from the entry frames and save it in a variable'''
+    global credentials
+    credentials['user'] = user.entry.get()
+    credentials['password'] = password.entry.get()
+    return credentials
+
+def show_password():
+    '''Show the password'''
+    if password.entry.cget('show') == '*':
+        password.entry.configure(show='')
+        password.button.configure(image=img['show'])
+    else:
+        password.entry.configure(show='*')
+        password.button.configure(image=img['hide'])
+
+def open_app():
+    '''Open the app window'''
+    app = top_level(Login, 900, 700)
+    get_data()
+    print(credentials)
+
 
 #$------------------------ Create the app
 Login=ctk.CTk()
@@ -66,12 +89,12 @@ user = EntryFrame(body, 450, 50,"Usuario      ")
 user.place(relx=0.5, rely=0.15, anchor=ttk.CENTER)
 
 # Password show/hide img
-show = ctk.CTkImage(Image.open('Datahive/recursos/icons/Cambiar - aColor.png'), size=(20,20))
-hide = ctk.CTkImage(Image.open('Datahive/recursos/icons/Cambiar - oscuro.png'), size=(20,20))
+show = ctk.CTkImage(Image.open('Datahive/recursos/icons/Password-show.png'), size=(30,20))
+hide = ctk.CTkImage(Image.open('Datahive/recursos/icons/Password-hide.png'), size=(30,20))
 img = { 'show': show, 'hide': hide}
 
 # Create the password entry frame
-password = EntryFrame(body, 450, 50,"Contraseña", True, img['hide'], None)
+password = EntryFrame(body, 450, 50,"Contraseña", True, img['hide'], show_password)
 password.place(relx=0.5, rely=0.4, anchor=ttk.CENTER)
 password.entry.configure(show='*')
 
@@ -85,7 +108,7 @@ registrarse_button.place(relx=0.3, rely=0.8, anchor=ttk.CENTER)
 
 # Create the login button
 credentials = {"user": "", "password": ""} # Credentials dictionary
-ingresar_button = button_frame(body, 'Ingresar', None, True, 'transparent', '#47959b', 35)
+ingresar_button = button_frame(body, 'Ingresar', open_app, True, 'transparent', '#47959b', 35)
 ingresar_button.place(relx=0.7, rely=0.8, anchor=ttk.CENTER)
 
 Login.mainloop()
