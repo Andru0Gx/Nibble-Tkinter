@@ -25,28 +25,28 @@ def show_password():
 
 def open_app():
     '''Open the app window'''
-    app = top_level(Login, 900, 700)
+    app = top_level(App, 900, 700)
     get_data()
     print(credentials)
 
 
 #$------------------------ Create the Login window
-Login=ctk.CTk()
-Login.title('Nibble') # Set the title of the app
-Login.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
-Login.after(50, lambda: Login.state('zoomed')) # Maximize the app
-Login.minsize(900, 700) # Set the minimum size of the app
+App=ctk.CTk()
+App.title('Nibble') # Set the title of the app
+App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
+App.after(50, lambda: App.state('zoomed')) # Maximize the app
+App.minsize(900, 700) # Set the minimum size of the app
 
 
 #$------------------------ Create the background image label of the app
 img = ctk.CTkImage(Image.open('Nibble/recursos/background.jpg'), size=(1920,1080))
-background = ctk.CTkLabel(Login, image=img)
+background = ctk.CTkLabel(App, image=img)
 background.place(relx=0.5, rely=0.5, anchor=ttk.CENTER) # Place the background image label
 
 
 #$------------------------ Create the login frames
 # Create the login frame
-login = Sections(Login,720,615,50,'#eafbff','transparent',['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+login = Sections(App,720,615,50,'#eafbff','transparent',['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
 login.pack(expand=True)
 
 # Create the header frame
@@ -74,7 +74,7 @@ back_button = ctk.CTkButton(
     hover=False,
     width=40,
     height=40,
-    command=Login.destroy
+    command=App.destroy
     )
 back_button.place(relx=0.05, rely=0.11, anchor=ttk.CENTER)
 
@@ -111,4 +111,4 @@ credentials = {"user": "", "password": ""} # Credentials dictionary
 ingresar_button = button_frame(body, 'Ingresar', open_app, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
 ingresar_button.place(relx=0.7, rely=0.8, anchor=ttk.CENTER)
 
-Login.mainloop()
+App.mainloop()
