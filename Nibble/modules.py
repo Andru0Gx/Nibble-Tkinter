@@ -92,8 +92,8 @@ def button_frame(parent, text, command = None, hover = True, bcolor = 'transpare
 def top_level(parent ,size_x, size_y):
     '''Top level of the app'''
     top = ctk.CTkToplevel(master = parent)
-    top.iconbitmap('Datahive/recursos/logo/Nibble.ico')
-    top.title('Datahive')
+    top.iconbitmap('Nibble/recursos/logo/Nibble.ico')
+    top.title('Nibble')
     top.minsize(size_x, size_y)
     top.geometry(f'+{int(get_monitors()[0].width/2)-550}+{int(get_monitors()[0].height/2)-450}')
     parent.withdraw() # Hide the parent window

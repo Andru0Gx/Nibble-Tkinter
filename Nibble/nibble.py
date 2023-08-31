@@ -30,7 +30,7 @@ def open_app():
     print(credentials)
 
 
-#$------------------------ Create the app
+#$------------------------ Create the Login window
 Login=ctk.CTk()
 Login.title('Nibble') # Set the title of the app
 Login.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
@@ -58,7 +58,7 @@ body = Sections(login, 620, 300, fcolor='transparent', bcolor='transparent')
 body.place(relx=0.5, rely=0.7, anchor=ttk.CENTER)
 
 
-#$------------------------ create the header widgets 
+#$------------------------ c\Create the header widgets 
 # Create the login icon
 icon_selected = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-1.png'), size=(150,150))
 icon_label = ctk.CTkLabel(header, image=icon_selected, corner_radius=50, text="")
