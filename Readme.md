@@ -1,6 +1,6 @@
-# Sistema de gestion de datos (Datahive)
+# Nibble
 
-> Sistema de gestion de datos (Datahive) es un sistema de gestion de datos para el grupo escolar San Simon, el cual permite gestionar los datos de los estudiantes, profesores, materias, notas, horarios, etc. El sistema esta desarrollado en Python y se conecta a una base de datos en SQLite3.
+> Nibble es un sistema de gestion de datos para el grupo escolar San Simon, el cual permite gestionar los datos de los estudiantes, profesores, materias, notas, horarios, etc. El sistema esta desarrollado en Python y se conecta a una base de datos en SQLite3.
 
 ## Pantallas
 ```md
