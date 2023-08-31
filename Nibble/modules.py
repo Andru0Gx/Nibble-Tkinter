@@ -73,7 +73,7 @@ class EntryFrame(ctk.CTkFrame):
 
 #$ ------------------------ Functions
 # Create the button frames for the app
-def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28, txcolor = None):
+def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28, txcolor = None, font = None):
     '''Button frames of the app'''
     button = ctk.CTkButton(
         master = parent,
@@ -84,6 +84,7 @@ def button_frame(parent, text, command = None, hover = True, bcolor = 'transpare
         height= size_y,
         command = command,
         text_color=txcolor,
+        font=font
         )
     return button
 
@@ -91,7 +92,7 @@ def button_frame(parent, text, command = None, hover = True, bcolor = 'transpare
 def top_level(parent ,size_x, size_y):
     '''Top level of the app'''
     top = ctk.CTkToplevel(master = parent)
-    top.iconbitmap('Datahive/recursos/logo/datahive-lg-D.ico')
+    top.iconbitmap('Datahive/recursos/logo/Nibble.ico')
     top.title('Datahive')
     top.minsize(size_x, size_y)
     top.geometry(f'+{int(get_monitors()[0].width/2)-550}+{int(get_monitors()[0].height/2)-450}')
