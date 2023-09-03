@@ -8,6 +8,7 @@ import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
+#todo - Sidebar con un .pack y cuando se pase el mouse se aumente el tamaño horizontalmente, los labels ya estaran creados
 
 #$------------------------ Functions
 #^------------Loginto the app
@@ -20,10 +21,24 @@ def loginto_app(credentials: dict):
     else:
         messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
 
+#^------------Loginto Register
+def loginto_register(parent):
+    '''Change the layout to register'''
+    parent.destroy()
+    RegisterLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+#^------------Back to login
+def back_to_login(parent):
+    '''Change the layout to login'''
+    parent.destroy()
+    LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+
+
 
 #$------------------------ Classes
 #^------------Login Layout
-class Login(ctk.CTkFrame):
+class LoginLayout(ctk.CTkFrame):
     '''Login Layout'''
     def __init__(self, parent):
         super().__init__(
@@ -52,7 +67,7 @@ class Login(ctk.CTkFrame):
         icon_label.place(relx=0.23, rely=0.5, anchor=tk.CENTER)
 
         # Create the login label
-        login_label = ctk.CTkLabel(self.header, text="Iniciar Sesión", font=('Arial', 50), bg_color='transparent', text_color='#243233')
+        login_label = ctk.CTkLabel(self.header, text="Iniciar Sesión", font=('Arial', 50, "bold"), bg_color='transparent', text_color='#243233')
         login_label.place(relx=0.67, rely=0.5, anchor=tk.CENTER)
 
         #*----------------------------------------- body widgets
@@ -63,10 +78,10 @@ class Login(ctk.CTkFrame):
         # Password show/hide img
         self.show = ctk.CTkImage(Image.open('Nibble/recursos/icons/Password-show.png'), size=(30,20))
         self.hide = ctk.CTkImage(Image.open('Nibble/recursos/icons/Password-hide.png'), size=(30,20))
-        img = { 'show': self.show, 'hide': self.hide} # Create the dictionary
+        pass_img = { 'show': self.show, 'hide': self.hide} # Create the dictionary
 
         # Create the password entry frame
-        self.password = EntryFrame(self.body, 450, 50,"Contraseña", True, img['hide'], self.show_password)
+        self.password = EntryFrame(self.body, 450, 50,"Contraseña", True, pass_img['hide'], self.show_password)
         self.password.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
         self.password.entry.configure(show='*') # Hide the password
 
@@ -76,7 +91,7 @@ class Login(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.body, 'Registrarse', None, True, 'transparent', '#47959b', 35, font=('Arial', 15))
+        registrarse_button = button_frame(self.body, 'Registrarse', lambda: loginto_register(self), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         registrarse_button.place(relx=0.3, rely=0.8, anchor=tk.CENTER)
 
         # Create the login button
@@ -100,6 +115,83 @@ class Login(ctk.CTkFrame):
         self.credentials['password'] = self.password.entry.get()
 
 
+#^------------Register Layout
+class RegisterLayout(ctk.CTkFrame):
+    '''Register Layout'''
+    def __init__(self, parent):
+        super().__init__(
+            master = parent,
+            width=720,
+            height=615,
+            corner_radius=50,
+            fg_color='transparent',
+            bg_color='transparent',
+            background_corner_colors=['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'],
+        )
+
+        #*----------------------------------------- frames
+        # Create the header frame
+        self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
+        self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+
+        # Create the body frame
+        self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent')
+        self.body.place(relx=0.5, rely=0.52, anchor=tk.CENTER)
+
+        # Create the footer frame
+        self.footer = Sections(self, 680, 80, fcolor='transparent', bcolor='transparent')
+        self.footer.place(relx=0.5, rely=0.92, anchor=tk.S)
+
+
+        #*----------------------------------------- header widgets
+        # Create the back button
+        back_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/back.png'), size=(30,30))
+        back_button = button_frame(self.header,"", lambda: back_to_login(self),True,'transparent','transparent',30,30,img= back_img)
+        back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
+
+        # Create the register label
+        tittle_label = ctk.CTkLabel(self.header, text="Registrarse", font=('Arial', 30, "bold"), bg_color='transparent', text_color='#000000')
+        tittle_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        #*----------------------------------------- body widgets
+        # Create the user entry frame
+        self.user = EntryFrame(self.body, 275, 50,"Usuario      ")
+        self.user.grid(row=0, column=0, pady=5, padx=20, sticky='e')
+
+        # Create the email entry frame
+        self.email = EntryFrame(self.body, 275, 50,"Correo electronico")
+        self.email.grid(row=1, column=0, pady=5, padx=20 , sticky='e')
+
+        # Create the password entry frame
+        self.password = EntryFrame(self.body, 275, 50,"Contraseña", False)
+        self.password.grid(row=2, column=0, pady=5, padx=20 , sticky='e')
+
+        # Create the confirm password entry frame
+        self.confirm_password = EntryFrame(self.body, 275, 50,"Confirmar contraseña", False)
+        self.confirm_password.grid(row=3, column=0, pady=5, padx=20 , sticky='e')
+
+
+        # Create security question entry frame
+        self.security_question = EntryFrame(self.body, 275, 50,"Cual es tu color favorito?")
+        self.security_question.grid(row=0, column=1, pady=5, padx=15 , sticky='w')
+
+        # Create security answer entry frame
+        self.security_answer = EntryFrame(self.body, 275, 50,"Cual es tu deporte favorito?")
+        self.security_answer.grid(row=1, column=1, pady=5, padx=15 , sticky='w')
+
+        # Create security answer entry frame
+        self.security_answer = EntryFrame(self.body, 275, 50,"Cual es tu comida favorita?")
+        self.security_answer.grid(row=2, column=1, pady=5, padx=15 , sticky='w')
+
+        # Create the register button
+        registrarse_button = button_frame(self.footer, 'Registrarse', None, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+
+
+#todo - POSIBLE BUG AL INICIAR SESION 'Cuando pones los credenciales no inicia sesion' (SOLO ME PASO UNA VEZ)
+#todo - BUG visual al volver a la pantalla de login
+
 
 #$------------------------ Main App
 App=ctk.CTk()
@@ -118,7 +210,7 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-Login_window = Login(background)
+Login_window = LoginLayout(background)
 Login_window.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
