@@ -3,33 +3,35 @@
 
 import tkinter as tk # Import the tkinter module
 from tkinter import ttk
-from typing import Optional, Tuple, Union # Import the ttk module
+from tkinter import messagebox # Import the messagebox module
 import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
 
 #$------------------------ Functions
-def img_background(parent):
-    '''Create the background image of the app'''
-    img = ctk.CTkImage(Image.open('Nibble/recursos/background.jpg'), size=(1920,1080))
-    img_label = ctk.CTkLabel(parent, image=img)
-    img_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+#^------------Loginto the app
+def loginto_app(credentials: dict):
+    '''Check if the credentials are correct'''
+    if credentials['user'] == Login_window.user.entry.get() and credentials['password'] == Login_window.password.entry.get():
+        img_label.destroy()
+        Login_window.destroy()
+        background.configure(width=1920, height=1080, corner_radius=0)
+    else:
+        messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
 
-    return img
 
 #$------------------------ Classes
 #^------------Login Layout
 class Login(ctk.CTkFrame):
     '''Login Layout'''
     def __init__(self, parent):
-        img_background(parent) # Create the background image label of the app
         super().__init__(
             master = parent,
             width=720,
             height=615,
             corner_radius=50,
-            fg_color='#eafbff',
+            fg_color='transparent',
             bg_color='transparent',
             background_corner_colors=['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'],
         )
@@ -78,8 +80,8 @@ class Login(ctk.CTkFrame):
         registrarse_button.place(relx=0.3, rely=0.8, anchor=tk.CENTER)
 
         # Create the login button
-        self.credentials = {"user": "", "password": ""} # Credentials dictionary
-        ingresar_button = button_frame(self.body, 'Ingresar', self.get_data, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
+        ingresar_button = button_frame(self.body, 'Ingresar', lambda:loginto_app(self.credentials), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         ingresar_button.place(relx=0.7, rely=0.8, anchor=tk.CENTER)
 
     #*------------------------ Class Functions
@@ -98,6 +100,7 @@ class Login(ctk.CTkFrame):
         self.credentials['password'] = self.password.entry.get()
 
 
+
 #$------------------------ Main App
 App=ctk.CTk()
 App.title('Nibble') # Set the title of the app
@@ -105,9 +108,18 @@ App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
 App.after(50, lambda: App.state('zoomed')) # Maximize the app
 App.minsize(900, 700) # Set the minimum size of the app
 
+#*------------------------ Img background from login section
+img = ctk.CTkImage(Image.open('Nibble/recursos/background.jpg'), size=(1920,1080))
+img_label = ctk.CTkLabel(App, image=img)
+img_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+#*------------------------ Background frame
+background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
 #*------------------------ Login
-Login = Login(App)
-Login.pack(expand=True)
+Login_window = Login(background)
+Login_window.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
 #------------------------ Run the app
