@@ -73,7 +73,7 @@ class LoginLayout(ctk.CTkFrame):
         #*----------------------------------------- body widgets
         # Create the user entry frame
         self.user = EntryFrame(self.body, 450, 50,"Usuario      ")
-        self.user.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
+        self.user.grid(row=0, column=0, pady=0, padx=20, sticky='e')
 
         # Password show/hide img
         self.show = ctk.CTkImage(Image.open('Nibble/recursos/icons/Password-show.png'), size=(30,20))
@@ -82,22 +82,22 @@ class LoginLayout(ctk.CTkFrame):
 
         # Create the password entry frame
         self.password = EntryFrame(self.body, 450, 50,"Contraseña", True, pass_img['hide'], self.show_password)
-        self.password.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
+        self.password.grid(row=1, column=0, pady=0, padx=20 , sticky='e')
         self.password.entry.configure(show='*') # Hide the password
 
         # Create the forgot credentials button
         fg_credentials = button_frame(self.body, text='Olvide mis credenciales.', hover=False, txcolor='#47959b')
-        fg_credentials.place(relx=0.25, rely=0.56, anchor=tk.CENTER)
+        fg_credentials.grid(row=2, column=0, pady=0, padx=20 , sticky='w')
 
         #*----------------------------------------- footer widgets
         # Create the register button
         registrarse_button = button_frame(self.body, 'Registrarse', lambda: loginto_register(self), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
-        registrarse_button.place(relx=0.3, rely=0.8, anchor=tk.CENTER)
+        registrarse_button.grid(row=3, column=0, pady=25, padx=20 , sticky='w')
 
         # Create the login button
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
         ingresar_button = button_frame(self.body, 'Ingresar', lambda:loginto_app(self.credentials), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
-        ingresar_button.place(relx=0.7, rely=0.8, anchor=tk.CENTER)
+        ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
 
     #*------------------------ Class Functions
     def show_password(self):
@@ -186,11 +186,7 @@ class RegisterLayout(ctk.CTkFrame):
         # Create the register button
         registrarse_button = button_frame(self.footer, 'Registrarse', None, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         registrarse_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-
-
-#todo - POSIBLE BUG AL INICIAR SESION 'Cuando pones los credenciales no inicia sesion' (SOLO ME PASO UNA VEZ)
-#todo - BUG visual al volver a la pantalla de login
+        
 
 
 #$------------------------ Main App
