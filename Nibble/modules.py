@@ -1,7 +1,6 @@
 '''Modules of the app'''
 import tkinter as ttk # Import the tkinter module
 import customtkinter as ctk # Import the customtkinter module
-from screeninfo import get_monitors # Import the get_monitors function from screeninfo
 
 
 #$ ------------------------ Classes
@@ -24,7 +23,7 @@ class Sections (ctk.CTkFrame):
 # Create the entry frames for the app
 class EntryFrame(ctk.CTkFrame):
     '''Entry frames of the app'''
-    def __init__(self, parent, size_x, size_y, text, another = False, img = None, command = None):
+    def __init__(self, parent, size_x, size_y, text, another = False, img = None, command = None, layout = 1, placeholder = None):
         super().__init__( # Create the entry frame
                 master = parent,
                 width = size_x,
@@ -43,7 +42,7 @@ class EntryFrame(ctk.CTkFrame):
             master = self,
             width = size_x,
             font = ('Arial', 20),
-            placeholder_text = text,
+            placeholder_text = placeholder,
             fg_color = '#f4fdff',
             bg_color = 'transparent',
             corner_radius = 10,
@@ -51,7 +50,7 @@ class EntryFrame(ctk.CTkFrame):
             text_color='#243233',
             )
         if another: # If another is True, create the button of the entry frame
-            self.button = ctk.CTkButton( 
+            self.button = ctk.CTkButton(
                 master = self,
                 text="",
                 image = img,
@@ -66,8 +65,12 @@ class EntryFrame(ctk.CTkFrame):
             self.entry.configure(width = int (size_x/1.13)) # Change the width of the entry
             self.button.grid(row=1, column=1, pady=5, padx=3, sticky='w') # Place the button
 
-        self.label.grid(row=0, column=0, pady=5, padx=0, sticky='w')
-        self.entry.grid(row=1, column=0, pady=5, padx=0 , sticky='w')
+        if layout == 1: # If layout is 0, place the label and the entry in the frame
+            self.label.grid(row=0, column=0, pady=5, padx=0, sticky='w')
+            self.entry.grid(row=1, column=0, pady=5, padx=0 , sticky='w')
+        elif layout == 2: # If layout is 1, place the label and the entry in the frame
+            self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
+            self.entry.grid(row=0, column=1, pady=5, padx=10 , sticky='w')
 
 
 #$ ------------------------ Functions
