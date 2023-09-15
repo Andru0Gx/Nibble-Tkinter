@@ -75,7 +75,7 @@ class EntryFrame(ctk.CTkFrame):
 
 #$ ------------------------ Functions
 # Create the button frames for the app
-def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28,size_x = 140 ,txcolor = None, font = None, img = None):
+def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28,size_x = 140 ,txcolor = None, font = None, img = None, cradius = None):
     '''Button frames of the app'''
     button = ctk.CTkButton(
         master = parent,
@@ -88,6 +88,7 @@ def button_frame(parent, text, command = None, hover = True, bcolor = 'transpare
         command = command,
         text_color=txcolor,
         font=font,
-        image=img
+        image=img,
+        corner_radius= cradius,
         )
     return button
