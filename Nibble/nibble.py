@@ -156,7 +156,9 @@ class LoginLayout(ctk.CTkFrame):
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
         ingresar_button = button_frame(self.body, 'Ingresar', lambda:self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
-
+        
+        
+    #TODO: ------------------- bug (boton ocultar)
     #*------------------------ Class Functions
     def show_password(self):
         '''Show the password'''
