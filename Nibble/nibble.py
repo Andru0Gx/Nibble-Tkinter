@@ -3,6 +3,7 @@
 
 import tkinter as tk # Import the tkinter module
 from tkinter import messagebox # Import the messagebox module
+import datetime # Import the datetime module
 import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
@@ -11,30 +12,30 @@ from PIL import Image # Import the Image modules from PIL
 #todo - Los credenciales hay que programarlos al final con la Base de datos
 
 #$------------------------ Functions
-#^------------Loginto the app
-def loginto_app(credentials: dict):
-    '''Check if the credentials are correct'''
-    if credentials['user'] == Login_window.user.entry.get() and credentials['password'] == Login_window.password.entry.get():
-        img_label.destroy()
-        Login_window.destroy()
-        background.configure(width=1920, height=1080, corner_radius=0)
-    else:
-        messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
-
-#^------------Loginto Register
-def loginto_register(parent):
-    '''Change the layout to register'''
-    parent.destroy()
-    RegisterLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-#^------------Back to login
+#^===================================================Back to login
 def back_to_login(parent):
     '''Change the layout to login'''
     parent.destroy()
     LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
-#^------------Loginto Forgot credentials
+#^===================================================Login to app
+def loginto_app(credentials: dict):
+    '''Check if the credentials are correct'''
+    if credentials['user'] == Login_window.user.entry.get() and credentials['password'] == Login_window.password.entry.get():
+        loginto_mode_selection(Login_window)
+    else:
+        messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
+
+
+#^===================================================Loginto Register
+def loginto_register(parent):
+    '''Change the layout to register'''
+    parent.destroy()
+    RegisterLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+
+#^===================================================Loginto Forgot credentials
 def loginto_forgot_credentials(parent):
     '''Show a two options window and then change the layout to forgot credentials'''
     options = tk.Toplevel(parent, bg='#eeeeee')
@@ -68,8 +69,33 @@ def loginto_forgot_credentials(parent):
         ForgotCredentialsLayout(background, option).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
+#^===================================================Loginto Mode Selection
+def loginto_mode_selection(parent):
+    '''Change the layout to mode selection'''
+    parent.destroy()
+    ModeSelectionLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+#^===================================================Loginto school mode
+def loginto_school_mode(parent):
+    '''Change the layout to mode selection'''
+    img_label.destroy()
+    parent.destroy()
+    background.configure(width=1920, height=1080, corner_radius=0)
+
+#^===================================================Loginto highschool mode
+def loginto_highschool_mode(parent):
+    '''Change the layout to mode selection'''
+    img_label.destroy()
+    parent.destroy()
+    background.configure(width=1920, height=1080, corner_radius=0)
+
+
+
+
+
+
 #$------------------------ Classes
-#^------------Login Layout
+#^===================================================Login Layout
 class LoginLayout(ctk.CTkFrame):
     '''Login Layout'''
     def __init__(self, parent):
@@ -128,7 +154,7 @@ class LoginLayout(ctk.CTkFrame):
 
         # Create the login button
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
-        ingresar_button = button_frame(self.body, 'Ingresar', lambda:loginto_app(self.credentials), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        ingresar_button = button_frame(self.body, 'Ingresar', lambda:self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
 
     #*------------------------ Class Functions
@@ -141,13 +167,22 @@ class LoginLayout(ctk.CTkFrame):
             self.password.entry.configure(show='*')
             self.password.button.configure(image=self.hide)
 
+    def validate_entry(self):
+        '''Validate the entrys'''
+        if self.user.entry.get() == '' or self.password.entry.get() == '':
+            messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
+        else:
+            loginto_app(self.credentials)
+
     def get_data(self):
         '''Get data from the entry frames and save it in a variable'''
         self.credentials['user'] = self.user.entry.get()
         self.credentials['password'] = self.password.entry.get()
 
 
-#^------------Register Layout
+
+
+#^===================================================Register Layout
 class RegisterLayout(ctk.CTkFrame):
     '''Register Layout'''
     def __init__(self, parent):
@@ -204,25 +239,38 @@ class RegisterLayout(ctk.CTkFrame):
 
 
         # Create security question entry frame
-        self.security_question = EntryFrame(self.body, 275, 50,"¿Cual es tu color favorito?", placeholder="Color favorito")
-        self.security_question.grid(row=0, column=1, pady=5, padx=15 , sticky='w')
+        self.security_answer1 = EntryFrame(self.body, 275, 50,"¿Cual es tu color favorito?", placeholder="Color favorito")
+        self.security_answer1.grid(row=0, column=1, pady=5, padx=15 , sticky='w')
 
         # Create security answer entry frame
-        self.security_answer = EntryFrame(self.body, 275, 50,"¿Cual es tu deporte favorito?", placeholder="Deporte favorito")
-        self.security_answer.grid(row=1, column=1, pady=5, padx=15 , sticky='w')
+        self.security_answer2 = EntryFrame(self.body, 275, 50,"¿Cual es tu deporte favorito?", placeholder="Deporte favorito")
+        self.security_answer2.grid(row=1, column=1, pady=5, padx=15 , sticky='w')
 
         # Create security answer entry frame
-        self.security_answer = EntryFrame(self.body, 275, 50,"¿Cual es tu comida favorita?", placeholder="Comida favorita")
-        self.security_answer.grid(row=2, column=1, pady=5, padx=15 , sticky='w')
+        self.security_answer3 = EntryFrame(self.body, 275, 50,"¿Cual es tu comida favorita?", placeholder="Comida favorita")
+        self.security_answer3.grid(row=2, column=1, pady=5, padx=15 , sticky='w')
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.footer, 'Registrarse', None, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button = button_frame(self.footer, 'Registrarse', lambda: self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         registrarse_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
+    #*------------------------ Class Functions
+    def validate_entry(self):
+        '''Validate the entrys'''
+        if self.user.entry.get() == '' or self.email.entry.get() == '' or self.password.entry.get() == '' or self.confirm_password.entry.get() == '' or self.security_answer1.entry.get() == '' or self.security_answer2.entry.get() == '' or self.security_answer3.entry.get() == '':
+            messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
+        elif self.password.entry.get() != self.confirm_password.entry.get():
+            messagebox.showerror('Contraseñas no coinciden', 'Las contraseñas no coinciden')
+        else:
+            # TODO - Save the data in the database
+            back_to_login(self)
 
-#^------------forgot credentials Layout
+
+
+
+#^===================================================forgot credentials Layout
 class ForgotCredentialsLayout(ctk.CTkFrame):
     '''Forgot credentials Layout'''
     def __init__(self, parent, op):
@@ -248,7 +296,7 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
         self.body.place(relx=0.5, rely=0.60, anchor=tk.S)
 
         # Create the footer frame
-        self.footer = Sections(self, 680, 80, fcolor='transparent', bcolor='transparent')
+        self.footer = Sections(self, 680, 180, fcolor='transparent', bcolor='transparent')
         self.footer.place(relx=0.5, rely=0.92, anchor=tk.S)
 
 
@@ -286,29 +334,111 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the continue button
-        continue_button = button_frame(self.footer, 'Continuar', lambda: entry_add(self), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
-        continue_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.continue_button = button_frame(self.footer, 'Continuar', lambda: self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.continue_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
 
-                #*------------------------ Class Functions
-        def entry_add(self):
-            '''add to the body the entry frame (pass or user), depending on the variable'''
+            #*------------------------ Class Functions
+    def entry_add(self):
+        '''add to the body the entry frame (pass or user), depending on the variable'''
+        if self.option == 'user':
+            # Create the user label
+            self.user = ctk.CTkLabel(self.footer, text="Usuario: " + "admin", font=('Arial', 15), bg_color='transparent', text_color='#000000')
+            self.user.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+            # reconfigure the button
+            self.continue_button.configure(text='Volver al login', command=lambda: back_to_login(self))
+        elif self.option == 'password':
             self.body.place_forget()
             self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent',radius=25,bdcolor='#d4d4d4',border_width=2)
             self.body.place(relx=0.5, rely=0.60, anchor=tk.S)
+            # Create the password entry frame
+            self.password = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
+            self.password.grid(row=0, column=0, pady=5, padx=20 , sticky='w')
+            # reconfigure the button
+            # TODO - Create a function to change the password
+            self.continue_button.configure(text='Volver al login', command=lambda: self.validate_pass())
 
-            if self.option == 'user':
-                # Create the user entry frame
-                self.user = EntryFrame(self.body, 280, 50,"Usuario:               ", layout=2, placeholder="Usuario")
-                self.user.grid(row=0, column=0, pady=5, padx=20, sticky='w')
-                # reconfigure the button
-                continue_button.configure(command=lambda: print('user'))
-            elif self.option == 'password':
-                # Create the password entry frame
-                self.password = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
-                self.password.grid(row=0, column=0, pady=5, padx=20 , sticky='w')
-                # reconfigure the button
-                continue_button.configure(command=lambda: print('password'))
+    def validate_entry(self):
+        '''Validate the entrys'''
+        if self.email.entry.get() == '' or self.security_question1.entry.get() == '' or self.security_question2.entry.get() == '' or self.security_question3.entry.get() == '':
+            messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
+        else:
+            self.entry_add()
+
+    def validate_pass(self):
+        '''Validate the entrys'''
+        if self.password.entry.get() == '':
+            messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
+        else:
+            # TODO - Change the password
+            back_to_login(self)
+
+
+
+
+#^===================================================Mode Selection Layout
+class ModeSelectionLayout(ctk.CTkFrame):
+    '''Mode Selection Layout'''
+    def __init__(self, parent):
+        super().__init__(
+            master = parent,
+            width=720,
+            height=615,
+            corner_radius=50,
+            fg_color='transparent',
+            bg_color='transparent',
+            background_corner_colors=['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'],
+        )
+
+        #*----------------------------------------- frames
+        # Create the header frame
+        self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
+        self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+        
+        # Create the body frame
+        self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent')
+        self.body.place(relx=0.5, rely=0.52, anchor=tk.CENTER)
+
+        #*----------------------------------------- header widgets
+        # Create the back button
+        back_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/back.png'), size=(30,30))
+        back_button = button_frame(self.header,"", lambda: back_to_login(self),True,'transparent','transparent',30,30,img= back_img)
+        back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
+
+        # Create the Hello Label
+        # TODO - Put the name of the user
+        # If is morning (6:00 - 12:00) say good morning
+        if datetime.datetime.now().hour >= 6 and datetime.datetime.now().hour < 12:
+            hello_label = ctk.CTkLabel(self.header, text="Buenos dias", font=('Arial', 45, "bold"), bg_color='transparent', text_color='#243233')
+        # If is afternoon (12:00 - 18:00) say good afternoon
+        elif datetime.datetime.now().hour >= 12 and datetime.datetime.now().hour < 18:
+            hello_label = ctk.CTkLabel(self.header, text="Buenas tardes", font=('Arial', 45, "bold"), bg_color='transparent', text_color='#243233')
+        # If is night (18:00 - 6:00) say good night
+        else:
+            hello_label = ctk.CTkLabel(self.header, text="Buenas noches", font=('Arial', 45, "bold"), bg_color='transparent', text_color='#243233')
+        hello_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        #*----------------------------------------- body widgets
+        # Create the label for the mode selection
+        mode_label = ctk.CTkLabel(self.body, text="Seleccion de modo:", font=('Arial', 25, "bold"), bg_color='transparent', text_color='#000000')
+        mode_label.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
+
+        # Create the frame for the buttons
+        buttons_frame = Sections(self.body, 680, 300, fcolor='transparent', bcolor='transparent')
+        buttons_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
+        # Create the button Liceo
+        liceo_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/highschool2.png'), size=(200,200))
+        liceo_button = button_frame(buttons_frame,"", lambda: loginto_highschool_mode(self),True,'transparent','transparent',150,150,img= liceo_img)
+        liceo_button.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the button Colegio
+        colegio_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/school2.png'), size=(200,200))
+        colegio_button = button_frame(buttons_frame,"", lambda: loginto_school_mode(self),True,'transparent','transparent',150,150,img= colegio_img)
+        colegio_button.grid(row=0, column=1, pady=5, padx=20, sticky='w')
+
+
+
 
 
 #$------------------------ Main App
