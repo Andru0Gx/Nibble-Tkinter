@@ -72,23 +72,42 @@ class EntryFrame(ctk.CTkFrame):
             self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
             self.entry.grid(row=0, column=1, pady=5, padx=10 , sticky='w')
 
+# Create the Button frames for the app
+class ButtonFrame(ctk.CTkFrame):
+    '''Button frames of the sidebar'''
+    def __init__(self,master,text,bcolor = 'transparent',fcolor = 'transparent',command = None,size_y = 28,size_x = 140, hover = True, font = None ,txcolor = None,img = None,cradius = None,hover_color = '#47959b', layout = 1):
+        super().__init__(
+                master = master,
+                bg_color='transparent',
+                fg_color='transparent',
+                height= 80,
+                width= 280,
+            )
+        self.button = ctk.CTkButton(
+            master = self,
+            text = text,
+            bg_color = bcolor,
+            fg_color = fcolor,
+            hover=hover,
+            height= size_y,
+            width= size_x,
+            command = command,
+            text_color=txcolor,
+            font=font,
+            image=img,
+            corner_radius= cradius,
+            hover_color=hover_color,
+            )
+        
+        if layout == 1:
+            self.button.place(relx=0.5, rely=0.5, anchor='center')
+        elif layout == 2:
+            self.button.place(relx=0.5, rely=0.4, anchor='center')
+            separator = ctk.CTkLabel(self, text="", bg_color='#cdd4f0', fg_color='#cdd4f0')
+            separator.place(relx=0.5, rely=0.85, anchor='center', relwidth=0.7, relheight=0.015)
+        elif layout == 3:
+            self.button.place(relx=0.5, rely=0.6, anchor='center')
+            separator = ctk.CTkLabel(self, text="", bg_color='#cdd4f0', fg_color='#cdd4f0')
+            separator.place(relx=0.5, rely=0.15, anchor='center', relwidth=0.7, relheight=0.015)
 
-#$ ------------------------ Functions
-# Create the button frames for the app
-def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28,size_x = 140 ,txcolor = None, font = None, img = None, cradius = None):
-    '''Button frames of the app'''
-    button = ctk.CTkButton(
-        master = parent,
-        text = text,
-        bg_color = bcolor,
-        fg_color = fcolor,
-        hover=hover,
-        height= size_y,
-        width= size_x,
-        command = command,
-        text_color=txcolor,
-        font=font,
-        image=img,
-        corner_radius= cradius,
-        )
-    return button
+        
