@@ -11,7 +11,7 @@
 5. Pantalla de recuperar contraseña
 6. Pantalla de inicio
 7. Pantalla de profesores
-8. Pantalla de estudiantes
+8. Pantalla de estudiantes y representantes
 9. Pantalla de notas
 10. Pantalla de horarios
 11. Pantalla de Configuraciones
@@ -31,6 +31,7 @@
     <img src="recursos-readme/Pantalla-6.jpg" alt="Pantalla de inicio" width = 400 title= "Pantalla de inicio"/>
     <img src="recursos-readme/Pantalla-7.jpg" alt="Pantalla de profesores" width = 400 title= "Pantalla de profesores"/>
     <img src="recursos-readme/Pantalla-8.jpg" alt="Pantalla de estudiantes" width = 400 title= "Pantalla de estudiantes"/>
+    <img src="recursos-readme/Pantalla-8-1.jpg" alt="Pantalla de representantes" width = 400 title= "Pantalla de representantes"/>
     <img src="recursos-readme/Pantalla-9.jpg" alt="Vista formulario" width = 400 title= "Vista formulario"/>
     <img src="recursos-readme/Pantalla-10.jpg" alt="vista tabla" width = 400 title= "Vista tabla"/>
     <img src="recursos-readme/Pantalla-11.jpg" alt="Pantalla horarios" width = 400 title= "Pantalla de horarios"/>
