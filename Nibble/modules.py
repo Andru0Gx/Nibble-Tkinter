@@ -101,6 +101,7 @@ class ButtonFrame(ctk.CTkFrame):
         
         if layout == 1:
             self.button.place(relx=0.5, rely=0.5, anchor='center')
+            self.configure(height= 35, width= 140)
         elif layout == 2:
             self.button.place(relx=0.5, rely=0.4, anchor='center')
             separator = ctk.CTkLabel(self, text="", bg_color='#cdd4f0', fg_color='#cdd4f0')
@@ -110,4 +111,25 @@ class ButtonFrame(ctk.CTkFrame):
             separator = ctk.CTkLabel(self, text="", bg_color='#cdd4f0', fg_color='#cdd4f0')
             separator.place(relx=0.5, rely=0.15, anchor='center', relwidth=0.7, relheight=0.015)
 
+
+
+#$ ------------------------ Functions
+# Create the button frames for the app
+def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28,size_x = 140 ,txcolor = None, font = None, img = None, cradius = None):
+    '''Button frames of the app'''
+    button = ctk.CTkButton(
+        master = parent,
+        text = text,
+        bg_color = bcolor,
+        fg_color = fcolor,
+        hover=hover,
+        height= size_y,
+        width= size_x,
+        command = command,
+        text_color=txcolor,
+        font=font,
+        image=img,
+        corner_radius= cradius,
+        )
+    return button
         
