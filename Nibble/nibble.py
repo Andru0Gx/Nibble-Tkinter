@@ -5,7 +5,7 @@ import tkinter as tk # Import the tkinter module
 from tkinter import messagebox # Import the messagebox module
 import datetime # Import the datetime module
 import customtkinter as ctk # Import the customtkinter module
-from modules import Sections, EntryFrame, button_frame # Import the Sections class from modules.py
+from modules import Sections, EntryFrame, ButtonFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
 #todo - Sidebar con un .pack y cuando se pase el mouse se aumente el tamaño horizontalmente, los labels ya estaran creados
@@ -80,14 +80,16 @@ def loginto_school_mode(parent):
     '''Change the layout to mode selection'''
     img_label.destroy()
     parent.destroy()
-    background.configure(width=1920, height=1080, corner_radius=0)
+    background.configure(width=1536, height=793, corner_radius=0)
+    school = AppLayout(background)
+    school.place(relx=0, rely=0, anchor=tk.NW)
 
 #^===================================================Loginto highschool mode
 def loginto_highschool_mode(parent):
     '''Change the layout to mode selection'''
     img_label.destroy()
     parent.destroy()
-    background.configure(width=1920, height=1080, corner_radius=0)
+    background.configure(width=1536, height=793, corner_radius=0)
 
 
 
@@ -156,8 +158,8 @@ class LoginLayout(ctk.CTkFrame):
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
         ingresar_button = button_frame(self.body, 'Ingresar', lambda:self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
-        
-        
+
+
     #TODO: ------------------- bug (boton ocultar)
     #*------------------------ Class Functions
     def show_password(self):
@@ -438,6 +440,88 @@ class ModeSelectionLayout(ctk.CTkFrame):
         colegio_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/school2.png'), size=(200,200))
         colegio_button = button_frame(buttons_frame,"", lambda: loginto_school_mode(self),True,'transparent','transparent',150,150,img= colegio_img)
         colegio_button.grid(row=0, column=1, pady=5, padx=20, sticky='w')
+
+
+
+
+#^===================================================App Layout
+class AppLayout(ctk.CTkFrame):
+    '''Layout of the app'''
+    def __init__(self, master):
+        super().__init__(
+            master = master,
+            bg_color='#f5fdff',
+            fg_color='#f5fdff',
+            width=1536,
+            height=793,
+            )
+
+        #* ------------------------ Frames
+        # Create the header frame
+        self.header = Sections(self, 1536, 100, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.header.pack(side=tk.TOP)
+
+        # Create the sidebar frame
+        self.sidebar = Sections(self, 300, 693, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.sidebar.pack(side=tk.LEFT)
+
+        # Create the body frame
+        self.body = Sections(self, 1237, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
+        self.body.pack(side=tk.BOTTOM)
+
+        #* ------------------------ Header
+        # Header title
+        self.title = ctk.CTkLabel(
+            master = self.header,
+            text = 'Grupo Escolar San Simon',
+            font = ('Arial', 40, 'bold'),
+            text_color='#243233',
+            )
+        self.title.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
+
+        # Create the logo image and label
+        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(150,50))
+        logo_label = ctk.CTkLabel(self.header, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
+        logo_label.place(relx=0.1, rely=0.5, anchor=tk.CENTER)
+
+
+        #* ------------------------ Sidebar
+        # --------------- Sidebar buttons
+        # Home button
+        home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(50,50))
+        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
+        home_button.place(relx=0.5, rely=0.06, anchor=tk.CENTER)
+
+        # Teachers button
+        teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(50,50))
+        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
+        teachers_button.place(relx=0.5, rely=0.18, anchor=tk.CENTER)
+
+        # Students button
+        students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(50,50))
+        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
+        students_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+
+        # Grades button
+        grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(50,50))
+        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
+        grades_button.place(relx=0.5, rely=0.42, anchor=tk.CENTER)
+
+        # Schedule button
+        schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(50,50))
+        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
+        schedule_button.place(relx=0.5, rely=0.54, anchor=tk.CENTER)
+
+        # Change Mode button
+        change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
+        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
+        change_mode_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+
+
+        #* ------------------------ Body
+        #class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
 
 
 
