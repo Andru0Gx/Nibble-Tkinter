@@ -4,12 +4,14 @@
 import tkinter as tk # Import the tkinter module
 from tkinter import messagebox # Import the messagebox module
 import datetime # Import the datetime module
+import tkcalendar # Import the tkcalendar module
 import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, ButtonFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
 #todo - Sidebar con un .pack y cuando se pase el mouse se aumente el tamaño horizontalmente, los labels ya estaran creados
 #todo - Los credenciales hay que programarlos al final con la Base de datos
+#todo - Al pulsar ENTER en el entry de contraseña se debe ejecutar el boton de ingresar
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -81,7 +83,7 @@ def loginto_school_mode(parent):
     img_label.destroy()
     parent.destroy()
     background.configure(width=1536, height=793, corner_radius=0)
-    school = AppLayout(background)
+    school = AppLayout(background,HomeLayout)
     school.place(relx=0, rely=0, anchor=tk.NW)
 
 #^===================================================Loginto highschool mode
@@ -447,7 +449,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
 #^===================================================App Layout
 class AppLayout(ctk.CTkFrame):
     '''Layout of the app'''
-    def __init__(self, master):
+    def __init__(self, master, class_name):
         super().__init__(
             master = master,
             bg_color='#f5fdff',
@@ -520,8 +522,44 @@ class AppLayout(ctk.CTkFrame):
 
 
         #* ------------------------ Body
-        #class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-        
+        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+
+#^===================================================Home Layout
+class HomeLayout(ctk.CTkFrame):
+    '''Home Layout (Calendar, identifier label)'''
+    def __init__(self, master):
+        super().__init__(
+            master = master,
+            bg_color='transparent',
+            fg_color='transparent',
+            width=1230,
+            height=690,
+        )
+
+        #* ------------------------ Frames
+        # Create the calendar frame
+        self.body = Sections(self, 1230, 690, fcolor='transparent', bcolor='transparent')
+        self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        #* ------------------------ Calendar
+        # Create the calendar
+        self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        # increase the size of the calendar
+        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=1230, height=690))
+
+        # Create events on the calendar
+        self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
+
+
+
+
+
+
+
+
 
 
 
