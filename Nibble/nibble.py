@@ -9,9 +9,9 @@ import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, ButtonFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
-#todo - Sidebar con un .pack y cuando se pase el mouse se aumente el tamaño horizontalmente, los labels ya estaran creados
-#todo - Los credenciales hay que programarlos al final con la Base de datos
-#todo - Al pulsar ENTER en el entry de contraseña se debe ejecutar el boton de ingresar
+#TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
+#TODO - Los credenciales hay que programarlos al final con la Base de datos
+#TODO - Al pulsar ENTER en el entry de contraseña se debe ejecutar el boton de ingresar
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -19,82 +19,6 @@ def back_to_login(parent):
     '''Change the layout to login'''
     parent.destroy()
     LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-
-#^===================================================Login to app
-def loginto_app(credentials: dict):
-    '''Check if the credentials are correct'''
-    if credentials['user'] == Login_window.user.entry.get() and credentials['password'] == Login_window.password.entry.get():
-        loginto_mode_selection(Login_window)
-    else:
-        messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
-
-
-#^===================================================Loginto Register
-def loginto_register(parent):
-    '''Change the layout to register'''
-    parent.destroy()
-    RegisterLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-
-#^===================================================Loginto Forgot credentials
-def loginto_forgot_credentials(parent):
-    '''Show a two options window and then change the layout to forgot credentials'''
-    options = tk.Toplevel(parent, bg='#eeeeee')
-    options.title('Olvide mis credenciales') # Set the title of the app
-    options.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
-    options.resizable(False, False) # Disable the resize of the window
-
-    # center the window
-    window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)
-    window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)
-    options.geometry(f"400x100+{window_width}+{window_height}")
-
-    # Create the label
-    label = ctk.CTkLabel(options, text="Seleccione una opcion", font=('Arial', 20), bg_color='#eeeeee', text_color='#000000')
-    label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
-
-    # create a frame for the buttons
-    options_frame = Sections(options, 400, 100)
-    options_frame.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
-
-    # Create the buttons
-    forgot_user = button_frame(options_frame, 'Usuario', lambda: select_option("user"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
-    forgot_user.grid(row=1, column=0, pady=5, padx=5 , sticky='w')
-
-    forgot_password = button_frame(options_frame, 'Contraseña', lambda: select_option("password"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
-    forgot_password.grid(row=1, column=1, pady=5, padx=5 , sticky='w')
-
-    def select_option(option):
-        '''Select the option and destroy the window'''
-        parent.destroy()
-        ForgotCredentialsLayout(background, option).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-
-#^===================================================Loginto Mode Selection
-def loginto_mode_selection(parent):
-    '''Change the layout to mode selection'''
-    parent.destroy()
-    ModeSelectionLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-#^===================================================Loginto school mode
-def loginto_school_mode(parent):
-    '''Change the layout to mode selection'''
-    img_label.destroy()
-    parent.destroy()
-    background.configure(width=1536, height=793, corner_radius=0)
-    school = AppLayout(background,HomeLayout)
-    school.place(relx=0, rely=0, anchor=tk.NW)
-
-#^===================================================Loginto highschool mode
-def loginto_highschool_mode(parent):
-    '''Change the layout to mode selection'''
-    img_label.destroy()
-    parent.destroy()
-    background.configure(width=1536, height=793, corner_radius=0)
-
-
-
 
 
 
@@ -148,21 +72,26 @@ class LoginLayout(ctk.CTkFrame):
         self.password.entry.configure(show='*') # Hide the password
 
         # Create the forgot credentials button
-        fg_credentials = button_frame(self.body, text='Olvide mis credenciales.', command= lambda: loginto_forgot_credentials(self) ,hover=False, txcolor='#47959b')
+        fg_credentials = button_frame(self.body, text='Olvide mis credenciales.', command= self.loginto_forgot_credentials,hover=False, txcolor='#47959b')
         fg_credentials.grid(row=2, column=0, pady=0, padx=20 , sticky='w')
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.body, 'Registrarse', lambda: loginto_register(self), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button = button_frame(self.body, 'Registrarse', self.loginto_register, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         registrarse_button.grid(row=3, column=0, pady=25, padx=20 , sticky='w')
 
         # Create the login button
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
-        ingresar_button = button_frame(self.body, 'Ingresar', lambda:self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        ingresar_button = button_frame(self.body, 'Ingresar', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
 
+        #*----------------------------------------- Events
+        # When the user press enter in the password entry
+        self.password.entry.bind('<Return>', lambda event: self.validate_entry())
+        self.user.entry.bind('<Return>', lambda event: self.validate_entry())
 
-    #TODO: ------------------- bug (boton ocultar)
+
+    #TODO - bug (boton ocultar)
     #*------------------------ Class Functions
     def show_password(self):
         '''Show the password'''
@@ -178,13 +107,65 @@ class LoginLayout(ctk.CTkFrame):
         if self.user.entry.get() == '' or self.password.entry.get() == '':
             messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
         else:
-            loginto_app(self.credentials)
+            self.loginto_app(self.credentials)
 
     def get_data(self):
         '''Get data from the entry frames and save it in a variable'''
         self.credentials['user'] = self.user.entry.get()
         self.credentials['password'] = self.password.entry.get()
 
+    #*===================================================Login to app
+    def loginto_app(self, credentials: dict):
+        '''Check if the credentials are correct'''
+        if credentials['user'] == self.user.entry.get() and credentials['password'] == self.password.entry.get():
+            self.loginto_mode_selection()
+        else:
+            messagebox.showerror('Error', 'Usuario o contraseña incorrectos')
+
+    #*===================================================Loginto Register
+    def loginto_register(self):
+        '''Change the layout to register'''
+        self.destroy()
+        RegisterLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+    #*===================================================Loginto Forgot credentials
+    def loginto_forgot_credentials(self):
+        '''Show a two options window and then change the layout to forgot credentials'''
+        options = tk.Toplevel(self, bg='#eeeeee')
+        options.title('Olvide mis credenciales') # Set the title of the app
+        options.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
+        options.resizable(False, False) # Disable the resize of the window
+
+        # center the window
+        window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)
+        window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)
+        options.geometry(f"400x100+{window_width}+{window_height}")
+
+        # Create the label
+        label = ctk.CTkLabel(options, text="Seleccione una opcion", font=('Arial', 20), bg_color='#eeeeee', text_color='#000000')
+        label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+        # create a frame for the buttons
+        options_frame = Sections(options, 400, 100)
+        options_frame.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+
+        # Create the buttons
+        forgot_user = button_frame(options_frame, 'Usuario', lambda: select_option("user"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
+        forgot_user.grid(row=1, column=0, pady=5, padx=5 , sticky='w')
+
+        forgot_password = button_frame(options_frame, 'Contraseña', lambda: select_option("password"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
+        forgot_password.grid(row=1, column=1, pady=5, padx=5 , sticky='w')
+
+        def select_option(option):
+            '''Select the option and destroy the window'''
+            self.destroy()
+            ForgotCredentialsLayout(background, option).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+    #*===================================================Loginto Mode Selection
+    def loginto_mode_selection(self):
+        '''Change the layout to mode selection'''
+        self.destroy()
+        ModeSelectionLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
 
@@ -258,7 +239,7 @@ class RegisterLayout(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.footer, 'Registrarse', lambda: self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button = button_frame(self.footer, 'Registrarse', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         registrarse_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
@@ -340,7 +321,7 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the continue button
-        self.continue_button = button_frame(self.footer, 'Continuar', lambda: self.validate_entry(), True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.continue_button = button_frame(self.footer, 'Continuar', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
         self.continue_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
 
@@ -349,8 +330,8 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
         '''add to the body the entry frame (pass or user), depending on the variable'''
         if self.option == 'user':
             # Create the user label
-            self.user = ctk.CTkLabel(self.footer, text="Usuario: " + "admin", font=('Arial', 15), bg_color='transparent', text_color='#000000')
-            self.user.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+            user_credentials = ctk.CTkLabel(self.footer, text="Usuario: " + "admin", font=('Arial', 15), bg_color='transparent', text_color='#000000')
+            user_credentials.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
             # reconfigure the button
             self.continue_button.configure(text='Volver al login', command=lambda: back_to_login(self))
         elif self.option == 'password':
@@ -358,11 +339,11 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
             self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent',radius=25,bdcolor='#d4d4d4',border_width=2)
             self.body.place(relx=0.5, rely=0.60, anchor=tk.S)
             # Create the password entry frame
-            self.password = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
-            self.password.grid(row=0, column=0, pady=5, padx=20 , sticky='w')
+            self.password_credentials = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
+            self.password_credentials.grid(row=0, column=0, pady=5, padx=20 , sticky='w')
             # reconfigure the button
             # TODO - Create a function to change the password
-            self.continue_button.configure(text='Volver al login', command=lambda: self.validate_pass())
+            self.continue_button.configure(text='Volver al login', command=self.validate_pass)
 
     def validate_entry(self):
         '''Validate the entrys'''
@@ -373,7 +354,7 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
 
     def validate_pass(self):
         '''Validate the entrys'''
-        if self.password.entry.get() == '':
+        if self.password_credentials.entry.get() == '':
             messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos')
         else:
             # TODO - Change the password
@@ -400,7 +381,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
         # Create the header frame
         self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
         self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
-        
+
         # Create the body frame
         self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.52, anchor=tk.CENTER)
@@ -435,13 +416,31 @@ class ModeSelectionLayout(ctk.CTkFrame):
 
         # Create the button Liceo
         liceo_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/highschool2.png'), size=(200,200))
-        liceo_button = button_frame(buttons_frame,"", lambda: loginto_highschool_mode(self),True,'transparent','transparent',150,150,img= liceo_img)
+        liceo_button = button_frame(buttons_frame,"", self.loginto_highschool_mode,True,'transparent','transparent',150,150,img= liceo_img)
         liceo_button.grid(row=0, column=0, pady=5, padx=20, sticky='w')
 
         # Create the button Colegio
         colegio_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/school2.png'), size=(200,200))
-        colegio_button = button_frame(buttons_frame,"", lambda: loginto_school_mode(self),True,'transparent','transparent',150,150,img= colegio_img)
+        colegio_button = button_frame(buttons_frame,"", self.loginto_school_mode,True,'transparent','transparent',150,150,img= colegio_img)
         colegio_button.grid(row=0, column=1, pady=5, padx=20, sticky='w')
+
+            #*------------------------ Class Functions
+
+    #*===================================================Loginto school mode
+    def loginto_school_mode(self):
+        '''Change the layout to mode selection'''
+        img_label.destroy()
+        self.destroy()
+        background.configure(width=1536, height=793, corner_radius=0)
+        school = AppLayout(background,HomeLayout)
+        school.place(relx=0, rely=0, anchor=tk.NW)
+
+    #*===================================================Loginto highschool mode
+    def loginto_highschool_mode(self):
+        '''Change the layout to mode selection'''
+        img_label.destroy()
+        self.destroy()
+        background.configure(width=1536, height=793, corner_radius=0)
 
 
 
