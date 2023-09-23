@@ -11,7 +11,6 @@ from PIL import Image # Import the Image modules from PIL
 
 #TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
-#TODO - Al pulsar ENTER en el entry de contraseña se debe ejecutar el boton de ingresar
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -91,7 +90,6 @@ class LoginLayout(ctk.CTkFrame):
         self.user.entry.bind('<Return>', lambda event: self.validate_entry())
 
 
-    #TODO - bug (boton ocultar)
     #*------------------------ Class Functions
     def show_password(self):
         '''Show the password'''
@@ -342,7 +340,6 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
             self.password_credentials = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
             self.password_credentials.grid(row=0, column=0, pady=5, padx=20 , sticky='w')
             # reconfigure the button
-            # TODO - Create a function to change the password
             self.continue_button.configure(text='Volver al login', command=self.validate_pass)
 
     def validate_entry(self):
@@ -393,7 +390,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
         back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
 
         # Create the Hello Label
-        # TODO - Put the name of the user
+        # TODO - Put the name of the user (Buenos Dias, User)
         # If is morning (6:00 - 12:00) say good morning
         if datetime.datetime.now().hour >= 6 and datetime.datetime.now().hour < 12:
             hello_label = ctk.CTkLabel(self.header, text="Buenos dias", font=('Arial', 45, "bold"), bg_color='transparent', text_color='#243233')
@@ -453,13 +450,13 @@ class AppLayout(ctk.CTkFrame):
             master = master,
             bg_color='#f5fdff',
             fg_color='#f5fdff',
-            width=1536,
-            height=793,
+            width=App.winfo_screenwidth(),
+            height=App.winfo_screenheight(),
             )
 
         #* ------------------------ Frames
         # Create the header frame
-        self.header = Sections(self, 1536, 100, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.header = Sections(self, App.winfo_screenwidth(), 100, fcolor='#f5fdff', bcolor='#f5fdff')
         self.header.pack(side=tk.TOP)
 
         # Create the sidebar frame
@@ -467,7 +464,7 @@ class AppLayout(ctk.CTkFrame):
         self.sidebar.pack(side=tk.LEFT)
 
         # Create the body frame
-        self.body = Sections(self, 1237, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
+        self.body = Sections(self, int(App.winfo_screenwidth())-299, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
         self.body.pack(side=tk.BOTTOM)
 
         #* ------------------------ Header
@@ -517,7 +514,6 @@ class AppLayout(ctk.CTkFrame):
         change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
         change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
         change_mode_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
-
 
 
         #* ------------------------ Body
@@ -581,8 +577,7 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-Login_window = LoginLayout(background)
-Login_window.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
 #------------------------ Run the app
