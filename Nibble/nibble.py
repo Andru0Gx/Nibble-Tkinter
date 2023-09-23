@@ -458,14 +458,17 @@ class AppLayout(ctk.CTkFrame):
         # Create the header frame
         self.header = Sections(self, App.winfo_screenwidth(), 100, fcolor='#f5fdff', bcolor='#f5fdff')
         self.header.pack(side=tk.TOP)
+        self.header.pack_propagate(0) # Disable the propagation
 
         # Create the sidebar frame
         self.sidebar = Sections(self, 300, 693, fcolor='#f5fdff', bcolor='#f5fdff')
         self.sidebar.pack(side=tk.LEFT)
+        self.sidebar.pack_propagate(0) # Disable the propagation
 
         # Create the body frame
         self.body = Sections(self, int(App.winfo_screenwidth())-299, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
         self.body.pack(side=tk.BOTTOM)
+        self.body.pack_propagate(0) # Disable the propagation
 
         #* ------------------------ Header
         # Header title
