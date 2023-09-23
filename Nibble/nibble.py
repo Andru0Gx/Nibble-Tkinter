@@ -528,13 +528,13 @@ class HomeLayout(ctk.CTkFrame):
             master = master,
             bg_color='transparent',
             fg_color='transparent',
-            width=1230,
+            width=int(App.winfo_screenwidth())-299,
             height=690,
         )
 
         #* ------------------------ Frames
         # Create the calendar frame
-        self.body = Sections(self, 1230, 690, fcolor='transparent', bcolor='transparent')
+        self.body = Sections(self, int(App.winfo_screenwidth())-299, 690, fcolor='transparent', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Calendar
@@ -543,7 +543,7 @@ class HomeLayout(ctk.CTkFrame):
         self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         # increase the size of the calendar
-        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=1230, height=690))
+        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=int(App.winfo_screenwidth())-299, height=690))
 
         # Create events on the calendar
         self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
