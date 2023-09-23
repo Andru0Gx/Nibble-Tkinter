@@ -487,32 +487,32 @@ class AppLayout(ctk.CTkFrame):
         # --------------- Sidebar buttons
         # Home button
         home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(50,50))
-        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
+        home_button = ButtonFrame(self.sidebar,"Inicio                       ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
         home_button.place(relx=0.5, rely=0.06, anchor=tk.CENTER)
 
         # Teachers button
         teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(50,50))
-        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
+        teachers_button = ButtonFrame(self.sidebar,"Profesores               ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
         teachers_button.place(relx=0.5, rely=0.18, anchor=tk.CENTER)
 
         # Students button
         students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(50,50))
-        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
+        students_button = ButtonFrame(self.sidebar,"Estudiantes              ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
         students_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
         # Grades button
         grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(50,50))
-        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
+        grades_button = ButtonFrame(self.sidebar,"Notas                      ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
         grades_button.place(relx=0.5, rely=0.42, anchor=tk.CENTER)
 
         # Schedule button
         schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(50,50))
-        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
+        schedule_button = ButtonFrame(self.sidebar,"Horario                  ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
         schedule_button.place(relx=0.5, rely=0.54, anchor=tk.CENTER)
 
         # Change Mode button
         change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
-        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
+        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo          ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
         change_mode_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 
@@ -577,7 +577,9 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+#LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+background.configure(width=1536, height=793, corner_radius=0)
+AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
 
 #------------------------ Run the app
 App.mainloop()
