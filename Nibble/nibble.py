@@ -458,17 +458,14 @@ class AppLayout(ctk.CTkFrame):
         # Create the header frame
         self.header = Sections(self, App.winfo_screenwidth(), 100, fcolor='#f5fdff', bcolor='#f5fdff')
         self.header.pack(side=tk.TOP)
-        self.header.pack_propagate(0) # Disable the propagation
 
         # Create the sidebar frame
         self.sidebar = Sections(self, 300, 693, fcolor='#f5fdff', bcolor='#f5fdff')
         self.sidebar.pack(side=tk.LEFT)
-        self.sidebar.pack_propagate(0) # Disable the propagation
 
         # Create the body frame
         self.body = Sections(self, int(App.winfo_screenwidth())-299, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
         self.body.pack(side=tk.BOTTOM)
-        self.body.pack_propagate(0) # Disable the propagation
 
         #* ------------------------ Header
         # Header title
@@ -490,32 +487,32 @@ class AppLayout(ctk.CTkFrame):
         # --------------- Sidebar buttons
         # Home button
         home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(50,50))
-        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
+        home_button = ButtonFrame(self.sidebar,"Inicio",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
         home_button.place(relx=0.5, rely=0.06, anchor=tk.CENTER)
 
         # Teachers button
         teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(50,50))
-        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
+        teachers_button = ButtonFrame(self.sidebar,"Profesores",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
         teachers_button.place(relx=0.5, rely=0.18, anchor=tk.CENTER)
 
         # Students button
         students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(50,50))
-        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
+        students_button = ButtonFrame(self.sidebar,"Estudiantes",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
         students_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
         # Grades button
         grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(50,50))
-        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
+        grades_button = ButtonFrame(self.sidebar,"Notas",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
         grades_button.place(relx=0.5, rely=0.42, anchor=tk.CENTER)
 
         # Schedule button
         schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(50,50))
-        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
+        schedule_button = ButtonFrame(self.sidebar,"Horario",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
         schedule_button.place(relx=0.5, rely=0.54, anchor=tk.CENTER)
 
         # Change Mode button
         change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
-        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
+        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
         change_mode_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 
