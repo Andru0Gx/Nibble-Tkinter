@@ -543,7 +543,7 @@ class HomeLayout(ctk.CTkFrame):
         self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         # increase the size of the calendar
-        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=int(App.winfo_screenwidth())-299, height=690))
+        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=self.winfo_screenwidth(), height=self.winfo_screenheight()))
 
         # Create events on the calendar
         self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
