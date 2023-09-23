@@ -449,7 +449,7 @@ class AppLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='#f5fdff',
-            fg_color='#f5fdff',
+            fg_color='red',
             width=App.winfo_screenwidth(),
             height=App.winfo_screenheight(),
             )
@@ -457,15 +457,15 @@ class AppLayout(ctk.CTkFrame):
         #* ------------------------ Frames
         # Create the header frame
         self.header = Sections(self, App.winfo_screenwidth(), 100, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.header.grid(row=0, column=0, pady=0, padx=0, sticky='nsew')
+        self.header.pack(side=tk.TOP, fill=tk.X)
 
         # Create the sidebar frame
         self.sidebar = Sections(self, 300, 693, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.sidebar.grid(row=1, column=0, pady=0, padx=0, sticky='sw')
+        self.sidebar.pack(side=tk.LEFT, fill=tk.Y)
 
         # Create the body frame
         self.body = Sections(self, int(App.winfo_screenwidth())-299, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
-        self.body.grid(row=1, column=1, pady=0, padx=0, sticky='sw')
+        self.body.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         #* ------------------------ Header
         # Header title
@@ -578,7 +578,6 @@ background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
 LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
 
 #------------------------ Run the app
 App.mainloop()
