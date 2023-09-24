@@ -528,7 +528,7 @@ class HomeLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='transparent',
-            fg_color='transparent',
+            fg_color='red',
             width=win_size[0]-350,
             height=640,
         )
@@ -542,6 +542,10 @@ class HomeLayout(ctk.CTkFrame):
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
         self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=win_size[0]-350, height=640)
+
+        print("Window: ",win_size[0], win_size[1])
+        print("Frame: ",win_size[0]-350, win_size[1]-150)
+        print("Calendar: ",self.calendar.winfo_screenwidth(), self.calendar.winfo_screenheight())
 
         # Create events on the calendar
         self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
@@ -576,7 +580,9 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+# LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
+AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
 
 #------------------------ Run the app
 App.mainloop()
