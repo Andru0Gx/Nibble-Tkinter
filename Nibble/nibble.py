@@ -522,26 +522,26 @@ class AppLayout(ctk.CTkFrame):
 
 
 #^===================================================Home Layout
-class HomeLayout(ctk.CTkFrame):
+class HomeLayout(tk.Frame):
     '''Home Layout (Calendar, identifier label)'''
     def __init__(self, master):
         super().__init__(
             master = master,
-            bg_color='transparent',
-            fg_color='transparent',
-            width=int(App.winfo_screenwidth())-350,
+            bg='red',
+            width=int(App.winfo_screenwidth())-300,
             height=640,
         )
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='red', bcolor='transparent')
+        self.body = tk.Frame(self, bg='#000000', width=int(App.winfo_screenwidth())-350, height=640)
+        # self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='red', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=int(App.winfo_screenwidth())-400, height=540)
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=int(App.winfo_screenwidth())-400, height=640)
 
 
 
@@ -556,11 +556,10 @@ class HomeLayout(ctk.CTkFrame):
 
 
 #$------------------------ Main App
-App=tk.Tk() # Create the app
+App=ctk.CTk()
 App.title('Nibble') # Set the title of the app
 App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
-#App.after(50, lambda: App.state('zoomed')) # Maximize the app
-App.state('zoomed') # Maximize the app
+App.after(50, lambda: App.state('zoomed')) # Maximize the app
 App.minsize(900, 700) # Set the minimum size of the app
 
 
@@ -574,9 +573,9 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-# background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
-# AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
+# LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
+AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
 
 #------------------------ Run the app
 App.mainloop()
