@@ -9,6 +9,7 @@ import customtkinter as ctk # Import the customtkinter module
 from modules import Sections, EntryFrame, ButtonFrame, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
+#TODO - Los layouts del sidebar en 2 clases, una para el pequeño y otra para el grande
 #TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
 
@@ -528,8 +529,8 @@ class HomeLayout(ctk.CTkFrame):
             master = master,
             bg_color='transparent',
             fg_color='transparent',
-            width=int(App.winfo_screenwidth())-299,
-            height=690,
+            width=win_size[0]-350,
+            height=640,
         )
 
         #* ------------------------ Frames
@@ -540,10 +541,7 @@ class HomeLayout(ctk.CTkFrame):
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-        # increase the size of the calendar
-        self.calendar.bind('<Enter>', lambda event: self.calendar.place_configure(width=self.winfo_screenwidth(), height=self.winfo_screenheight()))
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=win_size[0]-350, height=640)
 
         # Create events on the calendar
         self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
@@ -567,6 +565,7 @@ App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
 App.after(50, lambda: App.state('zoomed')) # Maximize the app
 App.minsize(900, 700) # Set the minimum size of the app
 
+win_size = (App.winfo_screenwidth(), App.winfo_screenheight())
 #*------------------------ Img background from login section
 img = ctk.CTkImage(Image.open('Nibble/recursos/background.jpg'), size=(1920,1080))
 img_label = ctk.CTkLabel(App, image=img)
