@@ -522,26 +522,26 @@ class AppLayout(ctk.CTkFrame):
 
 
 #^===================================================Home Layout
-class HomeLayout(tk.Frame):
+class HomeLayout(ctk.CTkFrame):
     '''Home Layout (Calendar, identifier label)'''
     def __init__(self, master):
         super().__init__(
             master = master,
-            bg='red',
+            bg_color='#f5f5f5',
+            fg_color='red',
             width=int(App.winfo_screenwidth())-300,
             height=640,
         )
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = tk.Frame(self, bg='#000000', width=int(App.winfo_screenwidth())-350, height=640)
-        # self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='red', bcolor='transparent')
+        self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='#000000', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=int(App.winfo_screenwidth())-400, height=640)
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=800, height=540)
 
 
 
