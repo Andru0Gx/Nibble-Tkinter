@@ -530,7 +530,7 @@ class HomeLayout(ctk.CTkFrame):
             bg_color='transparent',
             fg_color='red',
             width=win_size[0]-350,
-            height=640,
+            height=win_size[1]-225,
         )
 
         #* ------------------------ Frames
@@ -541,7 +541,7 @@ class HomeLayout(ctk.CTkFrame):
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=win_size[0]-350, height=640)
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=win_size[0]-350, height=win_size[1]-225)
 
         print("Window: ",win_size[0], win_size[1])
         print("Frame: ",win_size[0]-350, win_size[1]-150)
