@@ -559,7 +559,8 @@ class HomeLayout(ctk.CTkFrame):
 App=tk.Tk() # Create the app
 App.title('Nibble') # Set the title of the app
 App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
-App.after(50, lambda: App.state('zoomed')) # Maximize the app
+#App.after(50, lambda: App.state('zoomed')) # Maximize the app
+App.state('zoomed') # Maximize the app
 App.minsize(900, 700) # Set the minimum size of the app
 
 
@@ -573,9 +574,9 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-# LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
-AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
+LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+# background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
+# AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
 
 #------------------------ Run the app
 App.mainloop()
