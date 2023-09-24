@@ -530,25 +530,36 @@ class HomeLayout(ctk.CTkFrame):
             bg_color='transparent',
             fg_color='red',
             width=win_size[0]-350,
-            height=win_size[1]-225,
+            height=640,
         )
 
         #* ------------------------ Frames
-        # Create the calendar frame
+        # Create the body frame
         self.body = Sections(self, int(App.winfo_screenwidth())-299, 690, fcolor='transparent', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=win_size[0]-350, height=win_size[1]-225)
 
-        print("Window: ",win_size[0], win_size[1])
-        print("Frame: ",win_size[0]-350, win_size[1]-150)
-        print("Calendar: ",self.calendar.winfo_screenwidth(), self.calendar.winfo_screenheight())
+        #TODO - Cuando este en zoomed que se actualize el tamaño del calendario cuando se cambie el tamaño de la ventana solo se cambia el layout
+        App.bind('<Configure>', self.resize)
 
-        # Create events on the calendar
-        self.calendar.calevent_create(datetime.datetime(2023,9,25), 'Inicio de clases', 'school')
+    def resize(self, event):
+        '''Resize the calendar'''
+        # Get the new size of the window
+        x = App.winfo_screenwidth()
+        y = App.winfo_screenheight()
+        print(x,y)
+        if x < 1536 or y < 864:
+            self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=500, height=500)
+            self.calendar.configure(background='blue')
+            print("small")
+        else:
+            self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=1000, height=500)
+            self.calendar.configure(background='red')
+            print("big")
+
 
 
 
