@@ -528,38 +528,20 @@ class HomeLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='transparent',
-            fg_color='red',
-            width=win_size[0]-350,
+            fg_color='transparent',
+            width=int(App.winfo_screenwidth())-350,
             height=640,
         )
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = Sections(self, int(App.winfo_screenwidth())-299, 690, fcolor='transparent', bcolor='transparent')
+        self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='red', bcolor='transparent')
         self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-
-        #TODO - Cuando este en zoomed que se actualize el tamaño del calendario cuando se cambie el tamaño de la ventana solo se cambia el layout
-        App.bind('<Configure>', self.resize)
-
-    def resize(self, event):
-        '''Resize the calendar'''
-        # Get the new size of the window
-        x = App.winfo_screenwidth()
-        y = App.winfo_screenheight()
-        print(x,y)
-        if x < 1536 or y < 864:
-            self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=500, height=500)
-            self.calendar.configure(background='blue')
-            print("small")
-        else:
-            self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=1000, height=500)
-            self.calendar.configure(background='red')
-            print("big")
-
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=int(App.winfo_screenwidth())-400, height=540)
 
 
 
@@ -574,13 +556,13 @@ class HomeLayout(ctk.CTkFrame):
 
 
 #$------------------------ Main App
-App=ctk.CTk()
+App=tk.Tk() # Create the app
 App.title('Nibble') # Set the title of the app
 App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
 App.after(50, lambda: App.state('zoomed')) # Maximize the app
 App.minsize(900, 700) # Set the minimum size of the app
 
-win_size = (App.winfo_screenwidth(), App.winfo_screenheight())
+
 #*------------------------ Img background from login section
 img = ctk.CTkImage(Image.open('Nibble/recursos/background.jpg'), size=(1920,1080))
 img_label = ctk.CTkLabel(App, image=img)
