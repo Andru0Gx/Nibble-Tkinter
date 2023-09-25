@@ -6,7 +6,7 @@ from tkinter import messagebox # Import the messagebox module
 import datetime # Import the datetime module
 import tkcalendar # Import the tkcalendar module
 import customtkinter as ctk # Import the customtkinter module
-from modules import Sections, EntryFrame, ButtonFrame, button_frame # Import the Sections class from modules.py
+from modules import Sections, EntryFrame, ButtonFrame, Sections2, button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
 #TODO - Los layouts del sidebar en 2 clases, una para el pequeño y otra para el grande
@@ -428,17 +428,21 @@ class ModeSelectionLayout(ctk.CTkFrame):
     def loginto_school_mode(self):
         '''Change the layout to mode selection'''
         img_label.destroy()
+        background.destroy()
         self.destroy()
-        background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
-        school = AppLayout(background,HomeLayout)
-        school.place(relx=0, rely=0, anchor=tk.NW)
+        new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+        new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
+        school = AppLayout(new_background,HomeLayout)
+        school.place(relx=0, rely=0, relwidth=1, relheight=1)
 
     #*===================================================Loginto highschool mode
     def loginto_highschool_mode(self):
         '''Change the layout to mode selection'''
         img_label.destroy()
+        background.destroy()
         self.destroy()
-        background.configure(width=1536, height=793, corner_radius=0)
+        new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+        new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
 
 
 
@@ -450,23 +454,21 @@ class AppLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='#f5fdff',
-            fg_color='red',
-            width=App.winfo_screenwidth(),
-            height=App.winfo_screenheight(),
+            fg_color='transparent',
             )
 
         #* ------------------------ Frames
         # Create the header frame
-        self.header = Sections(self, App.winfo_screenwidth(), 100, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.header.pack(side=tk.TOP, fill=tk.X)
+        self.header = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.header.place(relx=0.18, rely=0, relwidth=0.82, relheight=0.1)
 
         # Create the sidebar frame
-        self.sidebar = Sections(self, 300, 693, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.sidebar.pack(side=tk.LEFT, fill=tk.Y)
+        self.sidebar = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.sidebar.place(relx=0, rely=0, relwidth=0.18, relheight=1)
 
         # Create the body frame
-        self.body = Sections(self, int(App.winfo_screenwidth())-299, 693, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
-        self.body.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+        self.body = Sections2(self, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
+        self.body.place(relx=0.18, rely=0.1, relwidth=0.82, relheight=0.9)
 
         #* ------------------------ Header
         # Header title
@@ -476,49 +478,52 @@ class AppLayout(ctk.CTkFrame):
             font = ('Arial', 40, 'bold'),
             text_color='#243233',
             )
-        self.title.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
-
-        # Create the logo image and label
-        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(150,50))
-        logo_label = ctk.CTkLabel(self.header, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
-        logo_label.place(relx=0.1, rely=0.5, anchor=tk.CENTER)
+        self.title.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
         #* ------------------------ Sidebar
+        # --------------- Sidebar NIBBLE ICON
+        # Create the logo image and label
+        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(150,50))
+        logo_label = ctk.CTkLabel(self.sidebar, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
+        logo_label.pack(fill = tk.X, pady=10, padx=10, side=tk.TOP, anchor=tk.W)
+        # separator = ctk.CTkLabel(self.sidebar, text="", fg_color='#c2c9db', bg_color='#c2c9db')
+        # separator.place(relx=0.5, rely=0.1005, anchor=tk.CENTER, relwidth=1, relheight=0.002)
+        
         # --------------- Sidebar buttons
         # Home button
         home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(50,50))
         home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
-        home_button.place(relx=0.5, rely=0.06, anchor=tk.CENTER)
+        home_button.pack(fill = tk.X, pady=10, padx=10, side=tk.TOP)
 
         # Teachers button
         teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(50,50))
         teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
-        teachers_button.place(relx=0.5, rely=0.18, anchor=tk.CENTER)
+        teachers_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Students button
         students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(50,50))
         students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
-        students_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+        students_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Grades button
         grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(50,50))
         grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
-        grades_button.place(relx=0.5, rely=0.42, anchor=tk.CENTER)
+        grades_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Schedule button
         schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(50,50))
         schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
-        schedule_button.place(relx=0.5, rely=0.54, anchor=tk.CENTER)
+        schedule_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Change Mode button
         change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
         change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
-        change_mode_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+        change_mode_button.pack(fill = tk.X, pady=5, padx=10, side=tk.BOTTOM)
 
 
         #* ------------------------ Body
-        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=1, relheight=1)
 
 
 #^===================================================Home Layout
@@ -528,20 +533,18 @@ class HomeLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='#f5f5f5',
-            fg_color='red',
-            width=int(App.winfo_screenwidth())-300,
-            height=640,
+            fg_color='red', # TODO - Change the color
         )
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = Sections(self, int(App.winfo_screenwidth())-350, 640, fcolor='#000000', bcolor='transparent')
-        self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.body = Sections2(self, fcolor='#000000', bcolor='transparent')
+        self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.9, relheight=0.9)
 
         #* ------------------------ Calendar
         # Create the calendar
         self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=800, height=540)
+        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.5, relheight=0.5)
 
 
 
@@ -573,9 +576,7 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-# LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-background.configure(width=App.winfo_screenwidth(), height=793, corner_radius=0)
-AppLayout(background,HomeLayout).place(relx=0, rely=0, anchor=tk.NW)
+LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #------------------------ Run the app
 App.mainloop()
