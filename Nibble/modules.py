@@ -20,6 +20,19 @@ class Sections (ctk.CTkFrame):
                 border_width=border_width,
             )
 
+class Sections2 (ctk.CTkFrame):
+    '''Frames of the app'''
+    def __init__(self, parent, radius=0, fcolor="transparent", bcolor='transparent', bg_corner_colors=None, bdcolor = None, border_width = 0):
+        super().__init__(
+                master=parent,
+                corner_radius=radius,
+                fg_color=fcolor,
+                bg_color=bcolor,
+                background_corner_colors=bg_corner_colors,
+                border_color=bdcolor,
+                border_width=border_width,
+            )
+
 # Create the entry frames for the app
 class EntryFrame(ctk.CTkFrame):
     '''Entry frames of the app'''
