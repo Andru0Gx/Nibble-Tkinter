@@ -6,12 +6,17 @@ from tkinter import messagebox # Import the messagebox module
 import datetime # Import the datetime module
 import tkcalendar # Import the tkcalendar module
 import customtkinter as ctk # Import the customtkinter module
-from modules import Sections, EntryFrame, ButtonFrame, Sections2, button_frame # Import the Sections class from modules.py
+from modules import Sections, EntryFrame, ButtonFrame, Sections2, EventsFrame ,button_frame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
 #TODO - Los layouts del sidebar en 2 clases, una para el pequeño y otra para el grande
 #TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
+#TODO - Si la ventana esta en zoomed, no verificar el layout, pero si esta en normal, verificar el layout (tamaño)
+
+#TODO - Cambiar los Sections por CtkFrames y los botones por CtkButtons
+#TODO - Formatear el codigo de los frames y los botones
+#TODO - Singleton para las ventanas (que solo se pueda abrir una vez)
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -136,9 +141,9 @@ class LoginLayout(ctk.CTkFrame):
         options.resizable(False, False) # Disable the resize of the window
 
         # center the window
-        window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)
-        window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)
-        options.geometry(f"400x100+{window_width}+{window_height}")
+        window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)      #TODO - REVISAR ESTE CODIGO
+        window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)   #TODO - REVISAR ESTE CODIGO
+        options.geometry(f"400x100+{window_width}+{window_height}")                         #TODO - REVISAR ESTE CODIGO
 
         # Create the label
         label = ctk.CTkLabel(options, text="Seleccione una opcion", font=('Arial', 20), bg_color='#eeeeee', text_color='#000000')
@@ -460,15 +465,15 @@ class AppLayout(ctk.CTkFrame):
         #* ------------------------ Frames
         # Create the header frame
         self.header = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.header.place(relx=0.18, rely=0, relwidth=0.82, relheight=0.1)
+        self.header.place(relx=0.13, rely=0, relwidth=0.87, relheight=0.1)
 
         # Create the sidebar frame
         self.sidebar = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
-        self.sidebar.place(relx=0, rely=0, relwidth=0.18, relheight=1)
+        self.sidebar.place(relx=0, rely=0, relwidth=0.13, relheight=1)
 
         # Create the body frame
         self.body = Sections2(self, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
-        self.body.place(relx=0.18, rely=0.1, relwidth=0.82, relheight=0.9)
+        self.body.place(relx=0.13, rely=0.1, relwidth=0.87, relheight=0.9)
 
         #* ------------------------ Header
         # Header title
@@ -484,46 +489,44 @@ class AppLayout(ctk.CTkFrame):
         #* ------------------------ Sidebar
         # --------------- Sidebar NIBBLE ICON
         # Create the logo image and label
-        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(150,50))
+        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(130,40))
         logo_label = ctk.CTkLabel(self.sidebar, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
-        logo_label.pack(fill = tk.X, pady=10, padx=10, side=tk.TOP, anchor=tk.W)
-        # separator = ctk.CTkLabel(self.sidebar, text="", fg_color='#c2c9db', bg_color='#c2c9db')
-        # separator.place(relx=0.5, rely=0.1005, anchor=tk.CENTER, relwidth=1, relheight=0.002)
+        logo_label.pack(pady=15, padx=10, side=tk.TOP, anchor=tk.W)
         
         # --------------- Sidebar buttons
         # Home button
-        home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(50,50))
-        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 25), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
-        home_button.pack(fill = tk.X, pady=10, padx=10, side=tk.TOP)
+        home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(40,40))
+        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 14), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
+        home_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Teachers button
-        teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(50,50))
-        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
+        teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(40,40))
+        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
         teachers_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Students button
-        students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(50,50))
-        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
+        students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(40,40))
+        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
         students_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Grades button
-        grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(50,50))
-        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
+        grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(40,40))
+        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
         grades_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Schedule button
-        schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(50,50))
-        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
+        schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(40,40))
+        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
         schedule_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Change Mode button
-        change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(50,50))
-        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 25), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
+        change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(40,40))
+        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
         change_mode_button.pack(fill = tk.X, pady=5, padx=10, side=tk.BOTTOM)
 
 
         #* ------------------------ Body
-        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=1, relheight=1)
+        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.95, relheight=0.95)
 
 
 #^===================================================Home Layout
@@ -533,24 +536,188 @@ class HomeLayout(ctk.CTkFrame):
         super().__init__(
             master = master,
             bg_color='#f5f5f5',
-            fg_color='red', # TODO - Change the color
+            fg_color='transparent',
         )
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = Sections2(self, fcolor='#000000', bcolor='transparent')
-        self.body.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.9, relheight=0.9)
+        self.body = Sections2(self, fcolor='transparent', bcolor='transparent')
+        self.body.place(relx=0.5, rely=0.45, anchor = tk.CENTER,relwidth=0.7, relheight=0.65)
 
-        #* ------------------------ Calendar
-        # Create the calendar
-        self.calendar = tkcalendar.Calendar(self.body, font=('Arial', 15), selectmode='day', locale='es_ES', date_pattern='dd/mm/yyyy')
-        self.calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.5, relheight=0.5)
+        # Create the footer frame
+        self.footer = Sections2(self, fcolor='transparent', bcolor='transparent')
+        self.footer.place(relx=0.5, rely=0.88, anchor = tk.CENTER, relwidth=0.7, relheight=0.2)
+
+        #* ------------------------ Body
+        # Create The Calendar
+        self.calendar = tkcalendar.Calendar(
+            self.body,
+            font=('Arial', 15),
+            selectmode='day',
+            locale='es_ES',
+            date_pattern='dd/mm/yyyy',
+            showweeknumbers=False,
+            )
+        self.calendar.place(relx=0.5, rely=0, anchor=tk.N, relwidth=1, relheight=1)
+
+        # Mark the actual day 
+        self.calendar.calevent_create(datetime.datetime.now(), 'Today', 'Today')
+
+        # Button to show the events
+        event_button = button_frame(self.body, 'Eventos', self.event, True, '#4d4d4d', '#47959b', 35, font=('Arial', 15, 'bold'))
+        event_button.place(relx=0.5, rely=0.03, anchor=tk.CENTER, relwidth=0.25, relheight=0.06)
+
+        # Label to show the event
+        self.event_label = ctk.CTkLabel(self.footer, text="", font=('Arial', 15, "bold"), bg_color='transparent', text_color='#000000')
+        self.event_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        # Bind the calendar to the label
+        self.calendar.bind('<<CalendarSelected>>', self.change_label)
+
+    def change_label(self, event):
+        '''Change the label text'''
+        # Get date
+        date = self.calendar.selection_get()
+        # Get the events
+        event_clicked = self.calendar.get_calevents(date)
+
+        if len(event_clicked) > 1:
+            # Get the text of the events
+            text = ""
+            # For each event
+            for events in event_clicked:
+                # Add the text to the label
+                text += str(events+1) + ". " + self.calendar.calevent_cget(event_clicked[events], 'text') + '\n'
+            # Change the text of the label
+            self.event_label.configure(text=text)
+        elif len(event_clicked) == 1:
+            # Get the text of the event
+            text = self.calendar.calevent_cget(event_clicked[0], 'text')
+            # Change the text of the label
+            self.event_label.configure(text=text)
+        else:
+            # Change the text of the label
+            self.event_label.configure(text="")
 
 
+    def event (self):
+        '''Events manager Layout'''
+        # Get date
+        date = self.calendar.selection_get()
+        
+        # Create the window
+        window = tk.Toplevel(
+                        master=self,
+                        bg='#f5f5f5',
+                        width=1000,
+                        height=800,
+                        )
+        window.title('Eventos') # Set the title of the app
+        window.iconbitmap('Nibble/recursos/logo/Nibble.ico')
+        window.resizable(False, False)
+        window.propagate(False)
+
+        #* ------------------------ Frames
+        # Create the Form frame
+        form_frame = ctk.CTkFrame(window,bg_color='transparent', fg_color='transparent')
+        form_frame.place(relx=0, rely=0, relwidth=1, relheight=0.4)
+
+        # Create the Search frame
+        search_frame = ctk.CTkFrame(window,height=50,bg_color='transparent', fg_color='transparent')
+        search_frame.place(relx=0, rely=0.4, relwidth=1, relheight=0.1)
+
+        # Create the Scroll_events frame ------------------------ Scrollable frame
+        scroll_frame = ctk.CTkFrame(window,bg_color='transparent', fg_color='transparent')
+        scroll_frame.place(relx=0.01, rely=0.5, relwidth=0.98, relheight=0.48)
+
+        # Create the Scrollbar
+        scrollbar = tk.Scrollbar(scroll_frame, orient=tk.VERTICAL)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Create the Canvas
+        canvas = tk.Canvas(scroll_frame, bg=None, bd=0, highlightthickness=0, yscrollcommand=scrollbar.set)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # Configure the scrollbar
+        scrollbar.config(command=canvas.yview)
+
+        # Create the Scrollable frame
+        events_frame = ctk.CTkFrame(canvas, bg_color='transparent', fg_color='transparent')
+        events_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Configure the canvas
+        canvas.create_window((0,0), window=events_frame, anchor=tk.NW)
+
+        # Bind the scrollbar to the canvas
+        events_frame.bind('<Configure>', lambda event: canvas.configure(scrollregion=canvas.bbox('all')))
+        
+        # configure the scrollbar with the mouse wheel
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), 'units')
+        canvas.bind_all('<MouseWheel>', _on_mousewheel)        
+        
+
+        #* ------------------------ Form - widgets
+        # Label
+        tittle_label = ctk.CTkLabel(form_frame, text="Crear un evento", font=('Arial', 30, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
+        tittle_label.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Tittle entry
+        event_name = EntryFrame(form_frame, 500, 50,"Nombre del evento", placeholder="Nombre del evento")
+        event_name.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+
+        # Description entry
+        description = EntryFrame(form_frame, 500, 50,"Descripcion", placeholder="Descripcion")
+        description.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+
+        # Date entry
+        date_label = ctk.CTkLabel(form_frame, text="Fecha: " + str(date.strftime('%d / %m / %Y')), font=('Arial', 15), bg_color='transparent', text_color='#000000')
+        date_label.grid(row=1, column=1, pady=5, padx=20, sticky='e')
+
+        # Separator line
+        separator_line = ctk.CTkLabel(form_frame, text="",bg_color='#000000')
+        separator_line.place(relx=0.5, rely=1, anchor=tk.CENTER, relwidth=0.95, relheight=0.01)
 
 
+        #* ------------------------ Search - widgets
+        # Search entry
+        search_entry = EntryFrame(search_frame, 600, 50,"Buscar", placeholder="Fecha o nombre del evento", layout=2, another=True)
+        search_entry.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
+        #* ------------------------ def Functions
+
+        def validate_entries():
+            '''Validate the entries'''
+            if event_name.entry.get() == '' or description.entry.get() == '':
+                messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos', parent=window)
+            else:
+                # TODO - Save the data in the database
+                create_event(event_name.entry.get(), description.entry.get(), date)
+
+        def create_event(name, description, date):
+            '''Create the event'''
+            # Create the event
+            self.calendar.calevent_create(date, name, description)
+            EventsFrame(events_frame, name, description, date, self.calendar).pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
+
+        # EVent button
+        event_button = ctk.CTkButton(form_frame,width=100, height=34 ,text='Crear', command= validate_entries,font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        event_button.grid(row=2, column=1, pady=5, padx=20, sticky='se')
+
+        def show_events():
+            '''Show the events'''
+            cant = len(self.calendar.calevents)
+            if cant > 0:
+                for event in self.calendar.calevents:
+                    # Get the text, date and tag of the events
+                    text = self.calendar.calevent_cget(event, 'text')
+                    date = self.calendar.calevent_cget(event, 'date')
+                    description = self.calendar.calevent_cget(event, 'tags')
+                    # Create the event frame
+                    EventsFrame(events_frame, text, description, date, self.calendar).pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
+
+        show_events()
 
 
 
