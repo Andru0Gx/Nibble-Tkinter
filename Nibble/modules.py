@@ -75,8 +75,12 @@ class EntryFrame(ctk.CTkFrame):
                 command = command,
                 text_color='#243233',
                 )
-            self.entry.configure(width = int (size_x/1.13)) # Change the width of the entry
-            self.button.grid(row=1, column=1, pady=5, padx=3, sticky='w') # Place the button
+            if layout == 1: # If layout is 0, place the label and the entry in the frame
+                self.entry.configure(width = int (size_x/1.13)) # Change the width of the entry
+                self.button.grid(row=1, column=1, pady=5, padx=3, sticky='w') # Place the button
+            elif layout == 2: # If layout is 1, place the label and the entry in the frame
+                self.button.grid(row=0, column=2, pady=5, padx=3, sticky='w') # Place the button
+                
 
         if layout == 1: # If layout is 0, place the label and the entry in the frame
             self.label.grid(row=0, column=0, pady=5, padx=0, sticky='w')
@@ -124,6 +128,46 @@ class ButtonFrame(ctk.CTkFrame):
             separator = ctk.CTkLabel(self, text="", bg_color='#cdd4f0', fg_color='#cdd4f0')
             separator.place(relx=0.5, rely=0.15, anchor='center', relwidth=0.7, relheight=0.015)
 
+class EventsFrame(ctk.CTkFrame):
+    '''Events frames of the calendar'''
+    def __init__(self, master, event_tittle, event_description, event_date, calendar_name):
+        super().__init__(
+                master = master,
+                bg_color='transparent',
+                fg_color='transparent',
+            )
+        # Create the event Widgets
+        # Event title
+        self.tittle = ctk.CTkLabel(self, text=event_tittle, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
+        self.tittle.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Event description
+        self.description = ctk.CTkLabel(self, text=event_description, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
+        self.description.grid(row=0, column=1, pady=5, padx=20, sticky='w')
+
+        # Event date
+        self.date = ctk.CTkLabel(self, text=event_date, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
+        self.date.grid(row=0, column=2, pady=5, padx=20, sticky='w')
+
+        # Edit event button
+        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: print("Edit Event"), bg_color='transparent', fg_color="#47959b", corner_radius=10)
+        self.edit_button.grid(row=0, column=3, pady=5, padx=20, sticky='w')
+
+        # Delete event button
+        self.delete_button = ctk.CTkButton(self,width=30, height=34,text="" ,command= lambda: self.delete_event(calendar_name,event_date), bg_color='transparent', fg_color="#fa4541", corner_radius=10)
+        self.delete_button.grid(row=0, column=4, pady=5, padx=20, sticky='w')
+
+
+    def delete_event(self, calendar, date):
+        '''Delete the event from the calendar'''
+        id_event = calendar.get_calevents(date)
+        calendar.calevent_remove(id_event[0])
+        self.destroy()
+
+    def edit_event(self):
+        '''Edit the event from the calendar'''
+        pass
+        
 
 
 #$ ------------------------ Functions
