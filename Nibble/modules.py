@@ -89,6 +89,7 @@ class EntryFrame(ctk.CTkFrame):
             self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
             self.entry.grid(row=0, column=1, pady=5, padx=10 , sticky='w')
 
+
 # Create the Button frames for the app
 class ButtonFrame(ctk.CTkFrame):
     '''Button frames of the sidebar'''
@@ -130,32 +131,63 @@ class ButtonFrame(ctk.CTkFrame):
 
 class EventsFrame(ctk.CTkFrame):
     '''Events frames of the calendar'''
-    def __init__(self, master, event_tittle, event_description, event_date, calendar_name):
+    def __init__(self, master, event_tittle, event_description, event_date, calendar_name, window_name, function_name):
         super().__init__(
                 master = master,
                 bg_color='transparent',
                 fg_color='transparent',
+                height= 35,
+                width= 760,
             )
+        # Change the date format
+        event_date = event_date.strftime("%d / %m / %Y")
+        
+        event_description = str(event_description).replace('[', '').replace(']', '').replace("'", '')
+        size_description = 1
+        size_tittle = 1
+
+        # if the description is too long, start a new line
+        if len(event_description) > 13:
+            for i in range(13,len(event_description),13):
+                event_description = event_description[:i] + '\n' + event_description[i:]
+                size_description += 1
+
+        # if the tittle is too long, start a new line
+        if len(event_tittle) > 13:
+            for i in range(13,len(event_tittle),13):
+                event_tittle = event_tittle[:i] + '\n' + event_tittle[i:]
+                size_tittle += 1
         # Create the event Widgets
         # Event title
-        self.tittle = ctk.CTkLabel(self, text=event_tittle, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
-        self.tittle.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+        self.tittle = ctk.CTkLabel(self, text=event_tittle, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle.place(relx=0.1, rely=0.5, anchor='center')
 
         # Event description
-        self.description = ctk.CTkLabel(self, text=event_description, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
-        self.description.grid(row=0, column=1, pady=5, padx=20, sticky='w')
+        self.description = ctk.CTkLabel(self, text=event_description, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.description.place(relx=0.4, rely=0.5, anchor='center')
 
         # Event date
-        self.date = ctk.CTkLabel(self, text=event_date, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#000000')
-        self.date.grid(row=0, column=2, pady=5, padx=20, sticky='w')
+        self.date = ctk.CTkLabel(self, text=event_date, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.date.place(relx=0.7, rely=0.5, anchor='center')
 
         # Edit event button
-        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: print("Edit Event"), bg_color='transparent', fg_color="#47959b", corner_radius=10)
-        self.edit_button.grid(row=0, column=3, pady=5, padx=20, sticky='w')
+        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: self.edit_event(calendar_name,event_date,window_name, function_name), bg_color='transparent', fg_color="#47959b", corner_radius=10)
+        self.edit_button.place(relx=0.87, rely=0.5, anchor='center')
 
         # Delete event button
         self.delete_button = ctk.CTkButton(self,width=30, height=34,text="" ,command= lambda: self.delete_event(calendar_name,event_date), bg_color='transparent', fg_color="#fa4541", corner_radius=10)
-        self.delete_button.grid(row=0, column=4, pady=5, padx=20, sticky='w')
+        self.delete_button.place(relx=0.93, rely=0.5, anchor='center')
+
+        # Change the size of the frame
+        if size_description > size_tittle and size_description > 1:
+            self.description.configure(height= 20*size_description)
+            # aumentar el tamaño del frame
+            self.configure(height= 22*size_description)
+            
+        elif size_tittle > size_description and size_tittle > 1:
+            self.tittle.configure(height= 20*size_tittle)
+            # aumentar el tamaño del frame
+            self.configure(height= 22*size_tittle)
 
 
     def delete_event(self, calendar, date):
@@ -164,9 +196,31 @@ class EventsFrame(ctk.CTkFrame):
         calendar.calevent_remove(id_event[0])
         self.destroy()
 
-    def edit_event(self):
+    def update_event(self, function, calendar, date, name, description):
+        '''Update the event from the calendar'''
+        self.delete_event(calendar, date)
+        function(name, description, date)
+
+    def edit_event(self, calendar, date, window, function):
         '''Edit the event from the calendar'''
-        pass
+        id_event = calendar.get_calevents(date)
+        text = calendar.calevent_cget(id_event[0], 'text')
+        tag = calendar.calevent_cget(id_event[0], 'tags')
+
+        if window.event_name.entry.cget != '':
+            window.event_name.entry.delete(0, 'end')
+            window.date_entry.entry.delete(0, 'end')
+            window.description.entry.delete(0, 'end')
+
+        window.event_name.entry.insert(0, text)
+        window.date_entry.entry.insert(0, date)
+        window.description.entry.insert(0, tag)
+        window.event_button.configure(text = 'Guardar', command=lambda: self.update_event(function, calendar, date, text, tag))
+
+
+
+
+
         
 
 
