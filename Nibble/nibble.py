@@ -526,7 +526,7 @@ class AppLayout(ctk.CTkFrame):
 
 
         #* ------------------------ Body
-        class_name(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.95, relheight=0.95)
+        class_name(self.body).place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
 
 
 #^===================================================Home Layout
@@ -542,11 +542,11 @@ class HomeLayout(ctk.CTkFrame):
         #* ------------------------ Frames
         # Create the body frame
         self.body = Sections2(self, fcolor='transparent', bcolor='transparent')
-        self.body.place(relx=0.5, rely=0.45, anchor = tk.CENTER,relwidth=0.7, relheight=0.65)
+        self.body.place(relx=0, rely=0,relwidth=1, relheight=0.75)
 
         # Create the footer frame
         self.footer = Sections2(self, fcolor='transparent', bcolor='transparent')
-        self.footer.place(relx=0.5, rely=0.88, anchor = tk.CENTER, relwidth=0.7, relheight=0.2)
+        self.footer.place(relx=0, rely=0.76, relwidth=1, relheight=0.24)
 
         #* ------------------------ Body
         # Create The Calendar
@@ -557,15 +557,28 @@ class HomeLayout(ctk.CTkFrame):
             locale='es_ES',
             date_pattern='dd/mm/yyyy',
             showweeknumbers=False,
+            background='#0d1321',
+            foreground='#ffffff',
+            headersbackground='#748cab',
+            normalbackground='#f8f9fa',
+            normalforeground='#000000',
+            weekendbackground='#adb5bd',
+            weekendforeground='#000000',
+            othermonthbackground='#ced4da',
+            othermonthforeground='#000000',
+            othermonthwebackground='#ced4da',
+            othermonthweforeground='#000000',
+            bordercolor='#ced4da',
+            borderwidth=1,
             )
         self.calendar.place(relx=0.5, rely=0, anchor=tk.N, relwidth=1, relheight=1)
 
-        # Mark the actual day 
-        self.calendar.calevent_create(datetime.datetime.now(), 'Today', 'Today')
+        # Mark the actual day
+        self.calendar.calevent_create(datetime.datetime.now(), 'Hoy', 'Fecha de hoy')
 
         # Button to show the events
-        event_button = button_frame(self.body, 'Eventos', self.event, True, '#4d4d4d', '#47959b', 35, font=('Arial', 15, 'bold'))
-        event_button.place(relx=0.5, rely=0.03, anchor=tk.CENTER, relwidth=0.25, relheight=0.06)
+        self.event_button = button_frame(self.body, 'Eventos', self.event, True, '#0d1321', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.event_button.place(relx=0.5, rely=0.029, anchor=tk.CENTER, relwidth=0.25, relheight=0.058)
 
         # Label to show the event
         self.event_label = ctk.CTkLabel(self.footer, text="", font=('Arial', 15, "bold"), bg_color='transparent', text_color='#000000')
@@ -584,8 +597,8 @@ class HomeLayout(ctk.CTkFrame):
         if len(event_clicked) > 1:
             # Get the text of the events
             text = ""
-            # For each event
-            for events in event_clicked:
+            # For each event to 3
+            for events in range(3):
                 # Add the text to the label
                 text += str(events+1) + ". " + self.calendar.calevent_cget(event_clicked[events], 'text') + '\n'
             # Change the text of the label
@@ -604,6 +617,9 @@ class HomeLayout(ctk.CTkFrame):
         '''Events manager Layout'''
         # Get date
         date = self.calendar.selection_get()
+
+        # disable the button
+        self.event_button.configure(state=tk.DISABLED)
         
         # Create the window
         window = tk.Toplevel(
@@ -616,6 +632,14 @@ class HomeLayout(ctk.CTkFrame):
         window.iconbitmap('Nibble/recursos/logo/Nibble.ico')
         window.resizable(False, False)
         window.propagate(False)
+
+        # Center the window
+        x = (window.winfo_screenwidth() / 2) - (1000 / 2)
+        y = (window.winfo_screenheight() / 2) - (800 / 2)
+        window.geometry(f'{1000}x{800}+{int(x)}+{int(y)}')
+
+        # on close window activate the button
+        window.bind('<Destroy>', lambda event: self.event_button.configure(state=tk.NORMAL))
 
         #* ------------------------ Frames
         # Create the Form frame
@@ -649,13 +673,8 @@ class HomeLayout(ctk.CTkFrame):
         canvas.create_window((0,0), window=events_frame, anchor=tk.NW)
 
         # Bind the scrollbar to the canvas
-        events_frame.bind('<Configure>', lambda event: canvas.configure(scrollregion=canvas.bbox('all')))
-        
-        # configure the scrollbar with the mouse wheel
-        def _on_mousewheel(event):
-            canvas.yview_scroll(int(-1*(event.delta/120)), 'units')
-        canvas.bind_all('<MouseWheel>', _on_mousewheel)        
-        
+        events_frame.bind('<Configure>', lambda event: canvas.configure(scrollregion=canvas.bbox('all')))      
+
 
         #* ------------------------ Form - widgets
         # Label
@@ -663,47 +682,85 @@ class HomeLayout(ctk.CTkFrame):
         tittle_label.grid(row=0, column=0, pady=5, padx=20, sticky='w')
 
         # Tittle entry
-        event_name = EntryFrame(form_frame, 500, 50,"Nombre del evento", placeholder="Nombre del evento")
-        event_name.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+        window.event_name = EntryFrame(form_frame, 500, 50,"Nombre del evento", placeholder="Nombre del evento")
+        window.event_name.grid(row=1, column=0, pady=5, padx=20, sticky='w')
 
         # Description entry
-        description = EntryFrame(form_frame, 500, 50,"Descripcion", placeholder="Descripcion")
-        description.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+        window.description = EntryFrame(form_frame, 500, 50,"Descripcion", placeholder="Descripcion")
+        window.description.grid(row=2, column=0, pady=5, padx=20, sticky='w')
 
         # Date entry
-        date_label = ctk.CTkLabel(form_frame, text="Fecha: " + str(date.strftime('%d / %m / %Y')), font=('Arial', 15), bg_color='transparent', text_color='#000000')
-        date_label.grid(row=1, column=1, pady=5, padx=20, sticky='e')
+        window.date_entry = EntryFrame(form_frame, 200, 50,"Fecha", placeholder="Fecha", another=True, command=lambda: self.datepicker(window))
+        window.date_entry.grid(row=1, column=1, pady=5, padx=20, sticky='e')
+        window.date_entry.entry.insert(0, date.strftime('%d / %m / %Y'))
+        window.date_entry.entry.configure(state='readonly')
 
         # Separator line
         separator_line = ctk.CTkLabel(form_frame, text="",bg_color='#000000')
         separator_line.place(relx=0.5, rely=1, anchor=tk.CENTER, relwidth=0.95, relheight=0.01)
 
+        #* ------------------------ def Functions
+
+        def validate_entries():
+            '''Validate the entries'''
+            if window.event_name.entry.get() == '' or window.description.entry.get() == '':
+                messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos', parent=window)
+            else:
+                # TODO - Save the data in the database
+                create_event(window.event_name.entry.get(), window.description.entry.get())
+
+        def create_event(name, description):
+            '''Create the event'''
+            # get the date
+            date = window.date_entry.entry.get()
+            # turn the date into a datetime object without the time
+            date = datetime.datetime.strptime(date, '%d / %m / %Y').date()
+
+            # Create the event
+            window.event_button.configure(text = 'Crear', command=validate_entries)
+            self.calendar.calevent_create(date, name, description)
+            EventsFrame(events_frame, name, description, date, self.calendar, window, create_event).pack(fill=tk.X, pady=5, padx=0, side=tk.TOP)
+            # Clear the entries
+            window.event_name.entry.delete(0, tk.END)
+            window.description.entry.delete(0, tk.END)
+            window.date_entry.entry.delete(0, tk.END)
+
+
+        # EVent button
+        window.event_button = ctk.CTkButton(form_frame,width=100, height=34 ,text='Crear', command= validate_entries,font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        window.event_button.grid(row=2, column=1, pady=5, padx=20, sticky='se')
 
         #* ------------------------ Search - widgets
         # Search entry
         search_entry = EntryFrame(search_frame, 600, 50,"Buscar", placeholder="Fecha o nombre del evento", layout=2, another=True)
         search_entry.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
+        #* ------------------------ Scroll_events - widgets
+        
+        # frame tittles
+        tittle_frame = ctk.CTkFrame(scroll_frame, bg_color='transparent', fg_color='#dce0e4', border_color='#c2c9db', border_width=1.3)
+        tittle_frame.place(relx=0, rely=0, relwidth=0.98, relheight=0.1)
 
-        #* ------------------------ def Functions
+        # Create the tittle label
+        tittle_label = ctk.CTkLabel(tittle_frame, text="Titulo", font=('Arial', 20, "bold"), bg_color='#dce0e4', fg_color=None,text_color='#243233')
+        tittle_label.place(relx=0.1, rely=0.5, anchor=tk.CENTER)
 
-        def validate_entries():
-            '''Validate the entries'''
-            if event_name.entry.get() == '' or description.entry.get() == '':
-                messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos', parent=window)
-            else:
-                # TODO - Save the data in the database
-                create_event(event_name.entry.get(), description.entry.get(), date)
+        # Create the description label
+        description_label = ctk.CTkLabel(tittle_frame, text="Descripcion", font=('Arial', 20, "bold"), bg_color='#dce0e4', fg_color=None,text_color='#243233')
+        description_label.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
 
-        def create_event(name, description, date):
-            '''Create the event'''
-            # Create the event
-            self.calendar.calevent_create(date, name, description)
-            EventsFrame(events_frame, name, description, date, self.calendar).pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
+        # Create the date label
+        date_label = ctk.CTkLabel(tittle_frame, text="Fecha", font=('Arial', 20, "bold"), bg_color='#dce0e4', fg_color=None,text_color='#243233')
+        date_label.place(relx=0.7, rely=0.5, anchor=tk.CENTER)
 
-        # EVent button
-        event_button = ctk.CTkButton(form_frame,width=100, height=34 ,text='Crear', command= validate_entries,font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
-        event_button.grid(row=2, column=1, pady=5, padx=20, sticky='se')
+        # Create the button label
+        button_label = ctk.CTkLabel(tittle_frame, text="Acciones", font=('Arial', 20, "bold"), bg_color='#dce0e4', fg_color=None,text_color='#243233')
+        button_label.place(relx=0.9, rely=0.5, anchor=tk.CENTER)
+
+
+        
+        # Create a space between the tittle and the events
+        ctk.CTkLabel(events_frame, text="",bg_color='transparent').pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
 
         def show_events():
             '''Show the events'''
@@ -715,9 +772,46 @@ class HomeLayout(ctk.CTkFrame):
                     date = self.calendar.calevent_cget(event, 'date')
                     description = self.calendar.calevent_cget(event, 'tags')
                     # Create the event frame
-                    EventsFrame(events_frame, text, description, date, self.calendar).pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
+                    EventsFrame(events_frame, text, description, date, self.calendar, window,create_event).pack(fill=tk.X, pady=5, padx=0, side=tk.TOP)
 
         show_events()
+
+    def datepicker(self, parent):
+        '''Create the datepicker'''
+        # Create the window
+        window = tk.Toplevel(
+                        master=parent,
+                        bg='#f5f5f5',
+                        width=400,
+                        height=300,
+                        )
+        window.title('Calendario') # Set the title of the app
+        window.iconbitmap('Nibble/recursos/logo/Nibble.ico')
+        window.resizable(False, False)
+        parent.date_entry.button.configure(state='disabled')
+
+        # Create the calendar
+        calendar = tkcalendar.Calendar(
+            window,
+            font=('Arial', 15),
+            selectmode='day',
+            locale='es_ES',
+            date_pattern='dd/mm/yyyy',
+            showweeknumbers=False,
+            )
+        calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=1, relheight=1)
+        
+        def update_date():
+            parent.date_entry.entry.configure(state='normal')
+            parent.date_entry.entry.delete(0, tk.END)
+            parent.date_entry.entry.insert(0, calendar.selection_get().strftime('%d / %m / %Y'))
+            parent.date_entry.entry.configure(state='readonly')
+            parent.date_entry.button.configure(state='normal')
+            window.destroy()
+
+        # Bind the calendar to the entry
+        calendar.bind('<<CalendarSelected>>', lambda event: update_date())
+            
 
 
 
@@ -743,7 +837,11 @@ background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
-LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+# LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+background.destroy()
+new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
+AppLayout(new_background,HomeLayout).place(relx=0, rely=0, relwidth=1, relheight=1)
 
 #------------------------ Run the app
 App.mainloop()
