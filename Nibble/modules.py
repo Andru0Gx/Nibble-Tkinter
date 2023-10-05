@@ -1,5 +1,4 @@
 '''Modules of the app'''
-import tkinter as ttk # Import the tkinter module
 import customtkinter as ctk # Import the customtkinter module
 
 
@@ -80,7 +79,7 @@ class EntryFrame(ctk.CTkFrame):
                 self.button.grid(row=1, column=1, pady=5, padx=3, sticky='w') # Place the button
             elif layout == 2: # If layout is 1, place the label and the entry in the frame
                 self.button.grid(row=0, column=2, pady=5, padx=3, sticky='w') # Place the button
-                
+
 
         if layout == 1: # If layout is 0, place the label and the entry in the frame
             self.label.grid(row=0, column=0, pady=5, padx=0, sticky='w')
@@ -116,7 +115,7 @@ class ButtonFrame(ctk.CTkFrame):
             corner_radius= cradius,
             hover_color=hover_color,
             )
-        
+
         if layout == 1:
             self.button.place(relx=0.5, rely=0.5, anchor='center')
             self.configure(height= 35, width= 140)
@@ -139,10 +138,6 @@ class EventsFrame(ctk.CTkFrame):
                 height= 35,
                 width= 760,
             )
-        # Change the date format
-        event_date = event_date.strftime("%d / %m / %Y")
-        
-        event_description = str(event_description).replace('[', '').replace(']', '').replace("'", '')
         size_description = 1
         size_tittle = 1
 
@@ -167,11 +162,11 @@ class EventsFrame(ctk.CTkFrame):
         self.description.place(relx=0.4, rely=0.5, anchor='center')
 
         # Event date
-        self.date = ctk.CTkLabel(self, text=event_date, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.date = ctk.CTkLabel(self, text=event_date.strftime("%d / %m / %Y"), font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
         self.date.place(relx=0.7, rely=0.5, anchor='center')
 
         # Edit event button
-        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: self.edit_event(calendar_name,event_date,window_name, function_name), bg_color='transparent', fg_color="#47959b", corner_radius=10)
+        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: self.edit_event(calendar_name,event_date,window_name, function_name, event_description), bg_color='transparent', fg_color="#47959b", corner_radius=10)
         self.edit_button.place(relx=0.87, rely=0.5, anchor='center')
 
         # Delete event button
@@ -183,7 +178,7 @@ class EventsFrame(ctk.CTkFrame):
             self.description.configure(height= 20*size_description)
             # aumentar el tamaño del frame
             self.configure(height= 22*size_description)
-            
+
         elif size_tittle > size_description and size_tittle > 1:
             self.tittle.configure(height= 20*size_tittle)
             # aumentar el tamaño del frame
@@ -196,14 +191,16 @@ class EventsFrame(ctk.CTkFrame):
         calendar.calevent_remove(id_event[0])
         self.destroy()
 
-    def update_event(self, function, calendar, date, name, description):
+    def update_event(self, function, calendar, date, window):
         '''Update the event from the calendar'''
+        name = window.event_name.entry.get()
+        description = window.description.entry.get()
         self.delete_event(calendar, date)
-        function(name, description, date)
+        function(name, description)
 
-    def edit_event(self, calendar, date, window, function):
+    def edit_event(self, calendar, date, window, function, tag):
         '''Edit the event from the calendar'''
-        id_event = calendar.get_calevents(date)
+        id_event = calendar.get_calevents(date, tag)
         text = calendar.calevent_cget(id_event[0], 'text')
         tag = calendar.calevent_cget(id_event[0], 'tags')
 
@@ -215,13 +212,13 @@ class EventsFrame(ctk.CTkFrame):
         window.event_name.entry.insert(0, text)
         window.date_entry.entry.insert(0, date)
         window.description.entry.insert(0, tag)
-        window.event_button.configure(text = 'Guardar', command=lambda: self.update_event(function, calendar, date, text, tag))
+        window.event_button.configure(text = 'Guardar', command=lambda: self.update_event(function, calendar, date, window))
 
 
 
 
 
-        
+
 
 
 #$ ------------------------ Functions

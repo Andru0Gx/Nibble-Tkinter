@@ -141,9 +141,9 @@ class LoginLayout(ctk.CTkFrame):
         options.resizable(False, False) # Disable the resize of the window
 
         # center the window
-        window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)      #TODO - REVISAR ESTE CODIGO
-        window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)   #TODO - REVISAR ESTE CODIGO
-        options.geometry(f"400x100+{window_width}+{window_height}")                         #TODO - REVISAR ESTE CODIGO
+        window_width = int(options.winfo_screenwidth()/2 - options.winfo_reqwidth()/2)
+        window_height = int(options.winfo_screenheight()/2 - options.winfo_reqheight()/2)
+        options.geometry(f"400x100+{window_width}+{window_height}")
 
         # Create the label
         label = ctk.CTkLabel(options, text="Seleccione una opcion", font=('Arial', 20), bg_color='#eeeeee', text_color='#000000')
@@ -492,7 +492,7 @@ class AppLayout(ctk.CTkFrame):
         logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(130,40))
         logo_label = ctk.CTkLabel(self.sidebar, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
         logo_label.pack(pady=15, padx=10, side=tk.TOP, anchor=tk.W)
-        
+
         # --------------- Sidebar buttons
         # Home button
         home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(40,40))
@@ -573,9 +573,6 @@ class HomeLayout(ctk.CTkFrame):
             )
         self.calendar.place(relx=0.5, rely=0, anchor=tk.N, relwidth=1, relheight=1)
 
-        # Mark the actual day
-        self.calendar.calevent_create(datetime.datetime.now(), 'Hoy', 'Fecha de hoy')
-
         # Button to show the events
         self.event_button = button_frame(self.body, 'Eventos', self.event, True, '#0d1321', '#47959b', 35, font=('Arial', 15, 'bold'))
         self.event_button.place(relx=0.5, rely=0.029, anchor=tk.CENTER, relwidth=0.25, relheight=0.058)
@@ -620,7 +617,7 @@ class HomeLayout(ctk.CTkFrame):
 
         # disable the button
         self.event_button.configure(state=tk.DISABLED)
-        
+
         # Create the window
         window = tk.Toplevel(
                         master=self,
@@ -673,7 +670,7 @@ class HomeLayout(ctk.CTkFrame):
         canvas.create_window((0,0), window=events_frame, anchor=tk.NW)
 
         # Bind the scrollbar to the canvas
-        events_frame.bind('<Configure>', lambda event: canvas.configure(scrollregion=canvas.bbox('all')))      
+        events_frame.bind('<Configure>', lambda event: canvas.configure(scrollregion=canvas.bbox('all')))
 
 
         #* ------------------------ Form - widgets
@@ -736,7 +733,7 @@ class HomeLayout(ctk.CTkFrame):
         search_entry.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         #* ------------------------ Scroll_events - widgets
-        
+
         # frame tittles
         tittle_frame = ctk.CTkFrame(scroll_frame, bg_color='transparent', fg_color='#dce0e4', border_color='#c2c9db', border_width=1.3)
         tittle_frame.place(relx=0, rely=0, relwidth=0.98, relheight=0.1)
@@ -758,7 +755,7 @@ class HomeLayout(ctk.CTkFrame):
         button_label.place(relx=0.9, rely=0.5, anchor=tk.CENTER)
 
 
-        
+
         # Create a space between the tittle and the events
         ctk.CTkLabel(events_frame, text="",bg_color='transparent').pack(fill=tk.X, pady=5, padx=20, side=tk.TOP)
 
@@ -800,7 +797,7 @@ class HomeLayout(ctk.CTkFrame):
             showweeknumbers=False,
             )
         calendar.place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=1, relheight=1)
-        
+
         def update_date():
             parent.date_entry.entry.configure(state='normal')
             parent.date_entry.entry.delete(0, tk.END)
@@ -811,7 +808,7 @@ class HomeLayout(ctk.CTkFrame):
 
         # Bind the calendar to the entry
         calendar.bind('<<CalendarSelected>>', lambda event: update_date())
-            
+
 
 
 
