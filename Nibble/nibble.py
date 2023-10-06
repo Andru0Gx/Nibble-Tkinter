@@ -6,17 +6,12 @@ from tkinter import messagebox # Import the messagebox module
 import datetime # Import the datetime module
 import tkcalendar # Import the tkcalendar module
 import customtkinter as ctk # Import the customtkinter module
-from modules import Sections, EntryFrame, ButtonFrame, Sections2, EventsFrame ,button_frame # Import the Sections class from modules.py
+from modules import EntryFrame, ButtonFrame, EventsFrame # Import the Sections class from modules.py
 from PIL import Image # Import the Image modules from PIL
 
-#TODO - Los layouts del sidebar en 2 clases, una para el pequeño y otra para el grande
 #TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
 #TODO - Si la ventana esta en zoomed, no verificar el layout, pero si esta en normal, verificar el layout (tamaño)
-
-#TODO - Cambiar los Sections por CtkFrames y los botones por CtkButtons
-#TODO - Formatear el codigo de los frames y los botones
-#TODO - Singleton para las ventanas (que solo se pueda abrir una vez)
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -44,11 +39,11 @@ class LoginLayout(ctk.CTkFrame):
 
         #*----------------------------------------- frames
         # Create the header frame
-        self.header = Sections(self, 680, 250, fcolor='transparent', bcolor='transparent')
+        self.header = ctk.CTkFrame(self, 680, 200, fg_color='transparent', bg_color='transparent')
         self.header.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
 
         # Create the body frame
-        self.body = Sections(self, 620, 300, fcolor='transparent', bcolor='transparent')
+        self.body = ctk.CTkFrame(self, 620, 300, fg_color='transparent', bg_color='transparent')
         self.body.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
         #*----------------------------------------- header widgets
@@ -77,17 +72,17 @@ class LoginLayout(ctk.CTkFrame):
         self.password.entry.configure(show='*') # Hide the password
 
         # Create the forgot credentials button
-        fg_credentials = button_frame(self.body, text='Olvide mis credenciales.', command= self.loginto_forgot_credentials,hover=False, txcolor='#47959b')
+        fg_credentials = ctk.CTkButton(self.body, text='Olvide mis credenciales.', command= self.loginto_forgot_credentials, hover=False, text_color='#47959b', fg_color='transparent', bg_color='transparent')
         fg_credentials.grid(row=2, column=0, pady=0, padx=20 , sticky='w')
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.body, 'Registrarse', self.loginto_register, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button = ctk.CTkButton(self.body, text='Registrarse', command= self.loginto_register,fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         registrarse_button.grid(row=3, column=0, pady=25, padx=20 , sticky='w')
 
         # Create the login button
         self.credentials = {"user": "admin", "password": "1234"} # Credentials dictionary
-        ingresar_button = button_frame(self.body, 'Ingresar', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        ingresar_button = ctk.CTkButton(self.body, height=35 ,text='Ingresar', command= self.validate_entry,fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         ingresar_button.grid(row=3, column=0, pady=0, padx=20 , sticky='e')
 
         #*----------------------------------------- Events
@@ -150,14 +145,14 @@ class LoginLayout(ctk.CTkFrame):
         label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
         # create a frame for the buttons
-        options_frame = Sections(options, 400, 100)
+        options_frame = ctk.CTkFrame(options, 400, 100, fg_color='transparent', bg_color='transparent')
         options_frame.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
         # Create the buttons
-        forgot_user = button_frame(options_frame, 'Usuario', lambda: select_option("user"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
+        forgot_user = ctk.CTkButton(options_frame, 100, 28, text='Usuario', command= lambda: select_option("user"),fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         forgot_user.grid(row=1, column=0, pady=5, padx=5 , sticky='w')
 
-        forgot_password = button_frame(options_frame, 'Contraseña', lambda: select_option("password"), True, 'transparent', '#47959b', 28,100, font=('Arial', 15, 'bold'))
+        forgot_password = ctk.CTkButton(options_frame, 100, 28, text='Contraseña', command= lambda: select_option("password"),fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         forgot_password.grid(row=1, column=1, pady=5, padx=5 , sticky='w')
 
         def select_option(option):
@@ -189,22 +184,22 @@ class RegisterLayout(ctk.CTkFrame):
 
         #*----------------------------------------- frames
         # Create the header frame
-        self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
+        self.header = ctk.CTkFrame(self, 680, 100, fg_color='transparent', bg_color='transparent')
         self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         # Create the body frame
-        self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent')
+        self.body = ctk.CTkFrame(self, 680, 400, fg_color='transparent', bg_color='transparent')
         self.body.place(relx=0.5, rely=0.52, anchor=tk.CENTER)
 
         # Create the footer frame
-        self.footer = Sections(self, 680, 80, fcolor='transparent', bcolor='transparent')
+        self.footer = ctk.CTkFrame(self, 680, 80, fg_color='transparent', bg_color='transparent')
         self.footer.place(relx=0.5, rely=0.92, anchor=tk.S)
 
 
         #*----------------------------------------- header widgets
         # Create the back button
         back_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/back.png'), size=(30,30))
-        back_button = button_frame(self.header,"", lambda: back_to_login(self),True,'transparent','transparent',30,30,img= back_img)
+        back_button = ctk.CTkButton(self.header, 30, 30, text='', command= lambda: back_to_login(self),fg_color='transparent', bg_color='transparent', image=back_img)
         back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
 
         # Create the register label
@@ -243,7 +238,7 @@ class RegisterLayout(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the register button
-        registrarse_button = button_frame(self.footer, 'Registrarse', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        registrarse_button = ctk.CTkButton(self.footer, height=35, text='Registrarse', command= self.validate_entry,fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         registrarse_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
@@ -255,7 +250,7 @@ class RegisterLayout(ctk.CTkFrame):
         elif self.password.entry.get() != self.confirm_password.entry.get():
             messagebox.showerror('Contraseñas no coinciden', 'Las contraseñas no coinciden')
         else:
-            # TODO - Save the data in the database
+            # TODO - Save the register data in the database
             back_to_login(self)
 
 
@@ -279,22 +274,22 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
 
         #*----------------------------------------- frames
         # Create the header frame
-        self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
+        self.header = ctk.CTkFrame(self, 680, 100, fg_color='transparent', bg_color='transparent')
         self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         # Create the body frame
-        self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent',radius=25,bdcolor='#d4d4d4',border_width=2)
+        self.body = ctk.CTkFrame(self, 680, 400, fg_color='transparent', bg_color='transparent', corner_radius=25, border_color='#d4d4d4', border_width=2)
         self.body.place(relx=0.5, rely=0.60, anchor=tk.S)
 
         # Create the footer frame
-        self.footer = Sections(self, 680, 180, fcolor='transparent', bcolor='transparent')
+        self.footer = ctk.CTkFrame(self, 680, 80, fg_color='transparent', bg_color='transparent')
         self.footer.place(relx=0.5, rely=0.92, anchor=tk.S)
 
 
         #*----------------------------------------- header widgets
         # Create the back button
         back_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/back.png'), size=(30,30))
-        back_button = button_frame(self.header,"", lambda: back_to_login(self),True,'transparent','transparent',30,30,img= back_img)
+        back_button = ctk.CTkButton(self.header, 30, 30, text='', command= lambda: back_to_login(self),fg_color='transparent', bg_color='transparent', image=back_img)
         back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
 
         # Create the Forgot credentials label
@@ -325,7 +320,7 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
 
         #*----------------------------------------- footer widgets
         # Create the continue button
-        self.continue_button = button_frame(self.footer, 'Continuar', self.validate_entry, True, 'transparent', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.continue_button = ctk.CTkButton(self.footer, height=35, text='Continuar', command= self.validate_entry,fg_color='#47959b', bg_color='transparent', font=('Arial', 15, 'bold'))
         self.continue_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
 
@@ -340,7 +335,7 @@ class ForgotCredentialsLayout(ctk.CTkFrame):
             self.continue_button.configure(text='Volver al login', command=lambda: back_to_login(self))
         elif self.option == 'password':
             self.body.place_forget()
-            self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent',radius=25,bdcolor='#d4d4d4',border_width=2)
+            self.body = ctk.CTkFrame(self, 680, 400, fg_color='transparent', bg_color='transparent', corner_radius=25, border_color='#d4d4d4', border_width=2)
             self.body.place(relx=0.5, rely=0.60, anchor=tk.S)
             # Create the password entry frame
             self.password_credentials = EntryFrame(self.body, 280, 50,"Contraseña:               ", layout=2, placeholder="Contraseña")
@@ -382,17 +377,17 @@ class ModeSelectionLayout(ctk.CTkFrame):
 
         #*----------------------------------------- frames
         # Create the header frame
-        self.header = Sections(self, 680, 100, fcolor='transparent', bcolor='transparent')
+        self.header = ctk.CTkFrame(self, 680, 100, fg_color='transparent', bg_color='transparent')
         self.header.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         # Create the body frame
-        self.body = Sections(self, 680, 400, fcolor='transparent', bcolor='transparent')
+        self.body = ctk.CTkFrame(self, 680, 400, fg_color='transparent', bg_color='transparent')
         self.body.place(relx=0.5, rely=0.52, anchor=tk.CENTER)
 
         #*----------------------------------------- header widgets
         # Create the back button
         back_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/back.png'), size=(30,30))
-        back_button = button_frame(self.header,"", lambda: back_to_login(self),True,'transparent','transparent',30,30,img= back_img)
+        back_button = ctk.CTkButton(self.header, 30, 30, text='', command= lambda: back_to_login(self),fg_color='transparent', bg_color='transparent', image=back_img)
         back_button.place(relx=0.05, rely=0.5, anchor=tk.CENTER)
 
         # Create the Hello Label
@@ -414,17 +409,17 @@ class ModeSelectionLayout(ctk.CTkFrame):
         mode_label.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
 
         # Create the frame for the buttons
-        buttons_frame = Sections(self.body, 680, 300, fcolor='transparent', bcolor='transparent')
+        buttons_frame = ctk.CTkFrame(self.body, 680, 300, fg_color='transparent', bg_color='transparent')
         buttons_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
         # Create the button Liceo
         liceo_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/highschool2.png'), size=(200,200))
-        liceo_button = button_frame(buttons_frame,"", self.loginto_highschool_mode,True,'transparent','transparent',150,150,img= liceo_img)
+        liceo_button = ctk.CTkButton(buttons_frame, 150, 150, text='', command= self.loginto_highschool_mode,fg_color='transparent', bg_color='transparent', image=liceo_img)
         liceo_button.grid(row=0, column=0, pady=5, padx=20, sticky='w')
 
         # Create the button Colegio
         colegio_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/school2.png'), size=(200,200))
-        colegio_button = button_frame(buttons_frame,"", self.loginto_school_mode,True,'transparent','transparent',150,150,img= colegio_img)
+        colegio_button = ctk.CTkButton(buttons_frame, 150, 150, text='', command= self.loginto_school_mode,fg_color='transparent', bg_color='transparent', image=colegio_img)
         colegio_button.grid(row=0, column=1, pady=5, padx=20, sticky='w')
 
             #*------------------------ Class Functions
@@ -435,7 +430,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
         img_label.destroy()
         background.destroy()
         self.destroy()
-        new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+        new_background = ctk.CTkFrame(App, corner_radius=0, fg_color='#eafbff', bg_color='transparent')
         new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
         school = AppLayout(new_background,HomeLayout)
         school.place(relx=0, rely=0, relwidth=1, relheight=1)
@@ -446,7 +441,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
         img_label.destroy()
         background.destroy()
         self.destroy()
-        new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+        new_background = ctk.CTkFrame(App, corner_radius=0, fg_color='#eafbff', bg_color='transparent')
         new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
 
 
@@ -464,15 +459,15 @@ class AppLayout(ctk.CTkFrame):
 
         #* ------------------------ Frames
         # Create the header frame
-        self.header = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.header = ctk.CTkFrame(self, fg_color='#f5fdff', bg_color='#f5fdff')
         self.header.place(relx=0.13, rely=0, relwidth=0.87, relheight=0.1)
 
         # Create the sidebar frame
-        self.sidebar = Sections2(self, fcolor='#f5fdff', bcolor='#f5fdff')
+        self.sidebar = ctk.CTkFrame(self, fg_color='#f5fdff', bg_color='#f5fdff')
         self.sidebar.place(relx=0, rely=0, relwidth=0.13, relheight=1)
 
         # Create the body frame
-        self.body = Sections2(self, fcolor='#f5f5f5', bcolor='#f5fdff', bdcolor='#c2c9db', border_width=1.3)
+        self.body = ctk.CTkFrame(self, fg_color='#f5f5f5', bg_color='#f5fdff', border_color='#c2c9db', border_width=1.3)
         self.body.place(relx=0.13, rely=0.1, relwidth=0.87, relheight=0.9)
 
         #* ------------------------ Header
@@ -541,11 +536,11 @@ class HomeLayout(ctk.CTkFrame):
 
         #* ------------------------ Frames
         # Create the body frame
-        self.body = Sections2(self, fcolor='transparent', bcolor='transparent')
+        self.body = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
         self.body.place(relx=0, rely=0,relwidth=1, relheight=0.75)
 
         # Create the footer frame
-        self.footer = Sections2(self, fcolor='transparent', bcolor='transparent')
+        self.footer = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
         self.footer.place(relx=0, rely=0.76, relwidth=1, relheight=0.24)
 
         #* ------------------------ Body
@@ -574,7 +569,7 @@ class HomeLayout(ctk.CTkFrame):
         self.calendar.place(relx=0.5, rely=0, anchor=tk.N, relwidth=1, relheight=1)
 
         # Button to show the events
-        self.event_button = button_frame(self.body, 'Eventos', self.event, True, '#0d1321', '#47959b', 35, font=('Arial', 15, 'bold'))
+        self.event_button = ctk.CTkButton(self.body, height=35, text='Eventos', command=self.event, fg_color='#47959b', bg_color='#0d1321', font=('Arial', 15, 'bold'))
         self.event_button.place(relx=0.5, rely=0.029, anchor=tk.CENTER, relwidth=0.25, relheight=0.058)
 
         # Label to show the event
@@ -703,7 +698,7 @@ class HomeLayout(ctk.CTkFrame):
             if window.event_name.entry.get() == '' or window.description.entry.get() == '':
                 messagebox.showerror('Campos Vacios', 'Por favor ingrese todos los datos', parent=window)
             else:
-                # TODO - Save the data in the database
+                # TODO - Save the event data in the database
                 create_event(window.event_name.entry.get(), window.description.entry.get())
 
         def create_event(name, description):
@@ -830,13 +825,13 @@ img_label = ctk.CTkLabel(App, image=img)
 img_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Background frame
-background = Sections(App, 720, 615, 50, '#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+background = ctk.CTkFrame(App, 720, 615, 50, fg_color='#eafbff', bg_color='transparent', background_corner_colors=['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
 background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 #*------------------------ Login
 # LoginLayout(background).place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 background.destroy()
-new_background = Sections2(App,50 ,'#eafbff', 'transparent', ['#a7bad6', '#b6c9e2', '#0b0c0e', '#070304'])
+new_background = ctk.CTkFrame(App, corner_radius=0, fg_color='#eafbff', bg_color='transparent')
 new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
 AppLayout(new_background,HomeLayout).place(relx=0, rely=0, relwidth=1, relheight=1)
 

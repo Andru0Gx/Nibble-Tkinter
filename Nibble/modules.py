@@ -3,34 +3,6 @@ import customtkinter as ctk # Import the customtkinter module
 
 
 #$ ------------------------ Classes
-# Create the Frames for the app
-class Sections (ctk.CTkFrame):
-    '''Frames of the app'''
-    def __init__(self, parent, size_x, size_y, radius=0, fcolor="transparent", bcolor='transparent', bg_corner_colors=None, bdcolor = None, border_width = 0):
-        super().__init__(
-                master=parent,
-                height=size_y,
-                width=size_x,
-                corner_radius=radius,
-                fg_color=fcolor,
-                bg_color=bcolor,
-                background_corner_colors=bg_corner_colors,
-                border_color=bdcolor,
-                border_width=border_width,
-            )
-
-class Sections2 (ctk.CTkFrame):
-    '''Frames of the app'''
-    def __init__(self, parent, radius=0, fcolor="transparent", bcolor='transparent', bg_corner_colors=None, bdcolor = None, border_width = 0):
-        super().__init__(
-                master=parent,
-                corner_radius=radius,
-                fg_color=fcolor,
-                bg_color=bcolor,
-                background_corner_colors=bg_corner_colors,
-                border_color=bdcolor,
-                border_width=border_width,
-            )
 
 # Create the entry frames for the app
 class EntryFrame(ctk.CTkFrame):
@@ -213,31 +185,3 @@ class EventsFrame(ctk.CTkFrame):
         window.date_entry.entry.insert(0, date)
         window.description.entry.insert(0, tag)
         window.event_button.configure(text = 'Guardar', command=lambda: self.update_event(function, calendar, date, window))
-
-
-
-
-
-
-
-
-#$ ------------------------ Functions
-# Create the button frames for the app
-def button_frame(parent, text, command = None, hover = True, bcolor = 'transparent',fcolor = 'transparent', size_y = 28,size_x = 140 ,txcolor = None, font = None, img = None, cradius = None):
-    '''Button frames of the app'''
-    button = ctk.CTkButton(
-        master = parent,
-        text = text,
-        bg_color = bcolor,
-        fg_color = fcolor,
-        hover=hover,
-        height= size_y,
-        width= size_x,
-        command = command,
-        text_color=txcolor,
-        font=font,
-        image=img,
-        corner_radius= cradius,
-        )
-    return button
-        
