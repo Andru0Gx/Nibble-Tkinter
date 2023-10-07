@@ -1,5 +1,6 @@
 '''Modules of the app'''
 import customtkinter as ctk # Import the customtkinter module
+from PIL import Image # Import the Image module
 
 
 #$ ------------------------ Classes
@@ -138,12 +139,14 @@ class EventsFrame(ctk.CTkFrame):
         self.date.place(relx=0.7, rely=0.5, anchor='center')
 
         # Edit event button
-        self.edit_button = ctk.CTkButton(self,width=30, height=34 ,text='', command= lambda: self.edit_event(calendar_name,event_date,window_name, function_name, event_description), bg_color='transparent', fg_color="#47959b", corner_radius=10)
+        edit_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/edit.png'), size= (20, 20))
+        self.edit_button = ctk.CTkButton(self,width=25, height=29 ,text='', command= lambda: self.edit_event(calendar_name,event_date,window_name, function_name, event_description), bg_color='transparent', fg_color="#47959b", corner_radius=10, image=edit_img)
         self.edit_button.place(relx=0.87, rely=0.5, anchor='center')
 
         # Delete event button
-        self.delete_button = ctk.CTkButton(self,width=30, height=34,text="" ,command= lambda: self.delete_event(calendar_name,event_date), bg_color='transparent', fg_color="#fa4541", corner_radius=10)
-        self.delete_button.place(relx=0.93, rely=0.5, anchor='center')
+        delete_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/delete.png'), size= (20, 20))
+        self.delete_button = ctk.CTkButton(self,width=25, height=29,text="" ,command= lambda: self.delete_event(calendar_name,event_date), bg_color='transparent', fg_color="#fa4541", corner_radius=10, image=delete_img)
+        self.delete_button.place(relx=0.935, rely=0.5, anchor='center')
 
         # Change the size of the frame
         if size_description > size_tittle and size_description > 1:
