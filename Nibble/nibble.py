@@ -432,7 +432,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
         self.destroy()
         new_background = ctk.CTkFrame(App, corner_radius=0, fg_color='#eafbff', bg_color='transparent')
         new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
-        school = AppLayout(new_background,HomeLayout)
+        school = AppLayout(new_background)
         school.place(relx=0, rely=0, relwidth=1, relheight=1)
 
     #*===================================================Loginto highschool mode
@@ -450,7 +450,7 @@ class ModeSelectionLayout(ctk.CTkFrame):
 #^===================================================App Layout
 class AppLayout(ctk.CTkFrame):
     '''Layout of the app'''
-    def __init__(self, master, class_name):
+    def __init__(self, master):
         super().__init__(
             master = master,
             bg_color='#f5fdff',
@@ -484,44 +484,134 @@ class AppLayout(ctk.CTkFrame):
         #* ------------------------ Sidebar
         # --------------- Sidebar NIBBLE ICON
         # Create the logo image and label
-        logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(130,40))
-        logo_label = ctk.CTkLabel(self.sidebar, image=logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
-        logo_label.pack(pady=15, padx=10, side=tk.TOP, anchor=tk.W)
+        self.logo_img = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-2.png'), size=(130,40))
+        self.logo_img2 = ctk.CTkImage(Image.open('Nibble/recursos/logo/Nibble-Logo-1.png'), size=(40,40))
+        self.logo_label = ctk.CTkLabel(self.sidebar, image=self.logo_img, corner_radius=50, text="", fg_color='#f5fdff', bg_color='#f5fdff')
+        self.logo_label.pack(pady=15, padx=10, side=tk.TOP, anchor=tk.W)
 
         # --------------- Sidebar buttons
         # Home button
         home_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/home.png'), size=(40,40))
-        home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','transparent', lambda: print("home"),30,30,True,font=('Arial', 14), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
-        home_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
+        self.home_button = ButtonFrame(self.sidebar,"Inicio                 ",'transparent','#cdd8f5', lambda: self.change_layout(0),30,30,True,font=('Arial', 14), txcolor='#32464b',img= home_img, hover_color='#cdd8f5', layout=2)
+        self.home_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Teachers button
         teachers_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/teachers.png'), size=(40,40))
-        teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: print("teachers"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
-        teachers_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
+        self.teachers_button = ButtonFrame(self.sidebar,"Profesores         ",command=lambda: self.change_layout(1),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= teachers_img, hover_color='#cdd8f5', layout=2)
+        self.teachers_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Students button
         students_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/student.png'), size=(40,40))
-        students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: print("students"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
-        students_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
+        self.students_button = ButtonFrame(self.sidebar,"Estudiantes        ",command= lambda: self.change_layout(2),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= students_img, hover_color='#cdd8f5', layout=2)
+        self.students_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Grades button
         grades_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/grades.png'), size=(40,40))
-        grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: print("grades"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
-        grades_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
+        self.grades_button = ButtonFrame(self.sidebar,"Notas                 ",command=lambda: self.change_layout(3),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= grades_img, hover_color='#cdd8f5', layout=2)
+        self.grades_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Schedule button
         schedule_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/schedule.png'), size=(40,40))
-        schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: print("schedule"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
-        schedule_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
+        self.schedule_button = ButtonFrame(self.sidebar,"Horario               ",command=lambda: self.change_layout(4),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= schedule_img, hover_color='#cdd8f5', layout=2)
+        self.schedule_button.pack(fill = tk.X, pady=5, padx=10, side=tk.TOP)
 
         # Change Mode button
         change_mode_img = ctk.CTkImage(Image.open('Nibble/recursos/icons/change_mode_dark.png'), size=(40,40))
-        change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print("change mode"),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
-        change_mode_button.pack(fill = tk.X, pady=5, padx=10, side=tk.BOTTOM)
+        self.change_mode_button = ButtonFrame(self.sidebar,"Cambiar modo   ",command=lambda: print('Change Mode'),size_x=30,size_y=30,font=('Arial', 14), txcolor='#32464b',img= change_mode_img, hover_color='#cdd8f5', layout=3)
+        self.change_mode_button.pack(fill = tk.X, pady=5, padx=10, side=tk.BOTTOM)
 
 
         #* ------------------------ Body
-        class_name(self.body).place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
+        HomeLayout(self.body).place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
+
+        self.responsive = True
+        #*------------------------ Events
+        # Responsive design
+        self.bind('<Configure>', lambda event: self.responsive_design())
+    #*---------------------------------------------- Functions
+    def change_layout(self, layout):
+        '''Change the layout of the body'''
+        # Destroy the body
+        self.body.place_forget()
+        self.body.place(relx=0.13, rely=0.1, relwidth=0.87, relheight=0.9)
+
+        case = {
+            0: HomeLayout(self.body),
+            1: TeachersLayout(self.body),
+            2: StudentsLayout(self.body),
+            3: GradesLayout(self.body),
+            4: ScheduleLayout(self.body),
+        }
+
+        case[layout].place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
+
+        buttons = (self.home_button, self.teachers_button, self.students_button, self.grades_button, self.schedule_button)
+
+        for button in buttons:
+            if buttons.index(button) == layout:
+                button.button.configure(fg_color='#cdd8f5')
+            else:
+                button.button.configure(fg_color='transparent')
+
+    def responsive_design(self):
+        "Eliminate the button's text when the app size is below 1520x850"
+        if self.responsive:
+            if App.state() == 'normal':
+                self.home_button.button.configure(text='')
+                self.teachers_button.button.configure(text='')
+                self.students_button.button.configure(text='')
+                self.grades_button.button.configure(text='')
+                self.schedule_button.button.configure(text='')
+                self.change_mode_button.button.configure(text='')
+                self.logo_label.configure(image=self.logo_img2)
+                self.responsive = False
+        else:
+            if App.state() == 'zoomed':
+                self.home_button.button.configure(text="Inicio                 ")
+                self.teachers_button.button.configure(text="Profesores         ")
+                self.students_button.button.configure(text="Estudiantes        ")
+                self.grades_button.button.configure(text="Notas                 ")
+                self.schedule_button.button.configure(text="Horario               ")
+                self.change_mode_button.button.configure(text="Cambiar modo   ")
+                self.logo_label.configure(image=self.logo_img)
+                self.responsive = True
+
+
+
+
+#^===================================================Teachers Layout
+class TeachersLayout(ctk.CTkFrame):
+    '''Teachers Layout'''
+    pass
+
+
+
+#^===================================================Students Layout
+class StudentsLayout(ctk.CTkFrame):
+    '''Students Layout'''
+    pass
+
+
+
+#^===================================================Grades Layout
+class GradesLayout(ctk.CTkFrame):
+    '''Grades Layout'''
+    pass
+
+
+
+#^===================================================Schedule Layout
+class ScheduleLayout(ctk.CTkFrame):
+    '''Schedule Layout'''
+    pass
+
+
+
+
+
+
+
+
 
 
 #^===================================================Home Layout
@@ -833,7 +923,7 @@ background.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 background.destroy()
 new_background = ctk.CTkFrame(App, corner_radius=0, fg_color='#eafbff', bg_color='transparent')
 new_background.place(relx=0, rely=0, relwidth=1, relheight=1)
-AppLayout(new_background,HomeLayout).place(relx=0, rely=0, relwidth=1, relheight=1)
+AppLayout(new_background).place(relx=0, rely=0, relwidth=1, relheight=1)
 
 #------------------------ Run the app
 App.mainloop()
