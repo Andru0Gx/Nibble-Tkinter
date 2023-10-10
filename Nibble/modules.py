@@ -1,5 +1,6 @@
 '''Modules of the app'''
 import customtkinter as ctk # Import the customtkinter module
+import datetime # Import the datetime module
 from PIL import Image # Import the Image module
 
 
@@ -113,25 +114,27 @@ class EventsFrame(ctk.CTkFrame):
             )
         size_description = 1
         size_tittle = 1
+        new_event_tittle = event_tittle
+        new_event_description = event_description
 
         # if the description is too long, start a new line
         if len(event_description) > 13:
             for i in range(13,len(event_description),13):
-                event_description = event_description[:i] + '\n' + event_description[i:]
+                new_event_description = new_event_description[:i] + '\n' + new_event_description[i:]
                 size_description += 1
 
         # if the tittle is too long, start a new line
         if len(event_tittle) > 13:
             for i in range(13,len(event_tittle),13):
-                event_tittle = event_tittle[:i] + '\n' + event_tittle[i:]
+                new_event_tittle = new_event_tittle[:i] + '\n' + new_event_tittle[i:]
                 size_tittle += 1
         # Create the event Widgets
         # Event title
-        self.tittle = ctk.CTkLabel(self, text=event_tittle, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle = ctk.CTkLabel(self, text=new_event_tittle, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
         self.tittle.place(relx=0.1, rely=0.5, anchor='center')
 
         # Event description
-        self.description = ctk.CTkLabel(self, text=event_description, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.description = ctk.CTkLabel(self, text=new_event_description, font=('Arial', 15, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
         self.description.place(relx=0.4, rely=0.5, anchor='center')
 
         # Event date
