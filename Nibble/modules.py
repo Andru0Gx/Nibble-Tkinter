@@ -178,16 +178,36 @@ class EventsFrame(ctk.CTkFrame):
 
     def edit_event(self, calendar, date, window, function, tag):
         '''Edit the event from the calendar'''
+        # Get the event date
+        dates = str(self.date.cget('text'))
+        dates = dates.split(' / ')
+        date = datetime.date(int(dates[2]), int(dates[1]), int(dates[0]))
+
+        # Get the event tag
+        tags = str(self.description.cget('text'))
+        tags = tags.replace('\n', ' ').replace('[', '').replace(']', '').replace("'", '').split(' ')
+        tag = tags[0]
+
+        # Get the event data
         id_event = calendar.get_calevents(date, tag)
         text = calendar.calevent_cget(id_event[0], 'text')
         tag = calendar.calevent_cget(id_event[0], 'tags')
 
+        # Activate the date entry
+        window.date_entry.entry.configure(state='normal')
+
+        # Delete the entrys
         if window.event_name.entry.cget != '':
             window.event_name.entry.delete(0, 'end')
             window.date_entry.entry.delete(0, 'end')
             window.description.entry.delete(0, 'end')
 
+        # Insert the event data
         window.event_name.entry.insert(0, text)
-        window.date_entry.entry.insert(0, date)
+        window.date_entry.entry.insert(0, date.strftime("%d / %m / %Y"))
         window.description.entry.insert(0, tag)
+
+        # Deactivate the date entry
+        window.date_entry.entry.configure(state='readonly')
+
         window.event_button.configure(text = 'Guardar', command=lambda: self.update_event(function, calendar, date, window))
