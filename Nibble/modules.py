@@ -50,17 +50,33 @@ class EntryFrame(ctk.CTkFrame):
                 )
             if layout == 1: # If layout is 0, place the label and the entry in the frame
                 self.entry.configure(width = int (size_x/1.13)) # Change the width of the entry
-                self.button.grid(row=1, column=1, pady=5, padx=3, sticky='w') # Place the button
+                self.button.grid(row=1, column=1, pady=5, padx=0, sticky='w') # Place the button
             elif layout == 2: # If layout is 1, place the label and the entry in the frame
-                self.button.grid(row=0, column=2, pady=5, padx=3, sticky='w') # Place the button
+                self.button.grid(row=0, column=2, pady=5, padx=0, sticky='w') # Place the button
 
 
-        if layout == 1: # If layout is 0, place the label and the entry in the frame
-            self.label.grid(row=0, column=0, pady=5, padx=0, sticky='w')
-            self.entry.grid(row=1, column=0, pady=5, padx=0 , sticky='w')
-        elif layout == 2: # If layout is 1, place the label and the entry in the frame
+        if layout == 1: # If layout is 1, place the label and the entry in the frame
+            self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
+            self.entry.grid(row=1, column=0, pady=5, padx=10, sticky='w')
+        elif layout == 2: # If layout is 2, place the label and the entry in the frame
             self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
             self.entry.grid(row=0, column=1, pady=5, padx=10 , sticky='w')
+        elif layout == 3: # If layout is 3, place the label and the entry in the frame
+            self.entry2 = ctk.CTkEntry( # Create the entry of the entry frame
+                master = self,
+                width = size_x,
+                font = ('Arial', 20),
+                placeholder_text = placeholder,
+                fg_color = '#f4fdff',
+                bg_color = 'transparent',
+                corner_radius = 10,
+                border_color = '#243233',
+                text_color='#243233',
+                )
+
+            self.label.grid(row=0, column=0, pady=5, padx=10, sticky='w')
+            self.entry.grid(row=1, column=0, pady=5, padx=10 , sticky='w')
+            self.entry2.grid(row=1, column=1, pady=5, padx=0 , sticky='w')
 
 
 # Create the Button frames for the app
