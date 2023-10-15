@@ -2,12 +2,12 @@
 
 
 import tkinter as tk # Import the tkinter module
-from tkinter import messagebox # Import the messagebox module
+from tkinter import messagebox, filedialog # Import the messagebox and filedialog modules
 import datetime # Import the datetime module
 import tkcalendar # Import the tkcalendar module
 import customtkinter as ctk # Import the customtkinter module
 from modules import EntryFrame, ButtonFrame, EventsFrame # Import the Sections class from modules.py
-from PIL import Image # Import the Image modules from PIL
+from PIL import Image, ImageTk # Import the Image modules from PIL
 
 #TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
@@ -474,7 +474,7 @@ class AppLayout(ctk.CTkFrame):
         # Header title
         self.title = ctk.CTkLabel(
             master = self.header,
-            text = 'Grupo Escolar San Simon',
+            text = 'Unidad Educativa Salvador Garmendia Grateron',
             font = ('Arial', 40, 'bold'),
             text_color='#243233',
             )
@@ -522,12 +522,15 @@ class AppLayout(ctk.CTkFrame):
 
 
         #* ------------------------ Body
-        HomeLayout(self.body).place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
+        HomeLayout(self.body).place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.95, relheight=0.95)
 
         self.responsive = True
+
+        #! ------------------------ MAYBE WE DONT NEED THIS
         #*------------------------ Events
         # Responsive design
-        self.bind('<Configure>', lambda event: self.responsive_design())
+        # self.bind('<Configure>', lambda event: self.responsive_design())
+
     #*---------------------------------------------- Functions
     def change_layout(self, layout):
         '''Change the layout of the body'''
@@ -543,7 +546,7 @@ class AppLayout(ctk.CTkFrame):
             4: ScheduleLayout(self.body),
         }
 
-        case[layout].place(relx=0.5, rely=0.55, anchor=tk.CENTER, relwidth=0.7, relheight=0.86)
+        case[layout].place(relx=0.5, rely=0.5, anchor=tk.CENTER, relwidth=0.95, relheight=0.95)
 
         buttons = (self.home_button, self.teachers_button, self.students_button, self.grades_button, self.schedule_button)
 
@@ -553,62 +556,30 @@ class AppLayout(ctk.CTkFrame):
             else:
                 button.button.configure(fg_color='transparent')
 
-    def responsive_design(self):
-        "Eliminate the button's text when the app size is below 1520x850"
-        if self.responsive:
-            if App.state() == 'normal':
-                self.home_button.button.configure(text='')
-                self.teachers_button.button.configure(text='')
-                self.students_button.button.configure(text='')
-                self.grades_button.button.configure(text='')
-                self.schedule_button.button.configure(text='')
-                self.change_mode_button.button.configure(text='')
-                self.logo_label.configure(image=self.logo_img2)
-                self.responsive = False
-        else:
-            if App.state() == 'zoomed':
-                self.home_button.button.configure(text="Inicio                 ")
-                self.teachers_button.button.configure(text="Profesores         ")
-                self.students_button.button.configure(text="Estudiantes        ")
-                self.grades_button.button.configure(text="Notas                 ")
-                self.schedule_button.button.configure(text="Horario               ")
-                self.change_mode_button.button.configure(text="Cambiar modo   ")
-                self.logo_label.configure(image=self.logo_img)
-                self.responsive = True
 
-
-
-
-#^===================================================Teachers Layout
-class TeachersLayout(ctk.CTkFrame):
-    '''Teachers Layout'''
-    pass
-
-
-
-#^===================================================Students Layout
-class StudentsLayout(ctk.CTkFrame):
-    '''Students Layout'''
-    pass
-
-
-
-#^===================================================Grades Layout
-class GradesLayout(ctk.CTkFrame):
-    '''Grades Layout'''
-    pass
-
-
-
-#^===================================================Schedule Layout
-class ScheduleLayout(ctk.CTkFrame):
-    '''Schedule Layout'''
-    pass
-
-
-
-
-
+    #! ------------------------ MAYBE WE DONT NEED THIS
+    # def responsive_design(self):
+    #     "Eliminate the button's text when the app size is below 1520x850"
+    #     if self.responsive:
+    #         if App.state() == 'normal':
+    #             self.home_button.button.configure(text='')
+    #             self.teachers_button.button.configure(text='')
+    #             self.students_button.button.configure(text='')
+    #             self.grades_button.button.configure(text='')
+    #             self.schedule_button.button.configure(text='')
+    #             self.change_mode_button.button.configure(text='')
+    #             self.logo_label.configure(image=self.logo_img2)
+    #             self.responsive = False
+    #     else:
+    #         if App.state() == 'zoomed':
+    #             self.home_button.button.configure(text="Inicio                 ")
+    #             self.teachers_button.button.configure(text="Profesores         ")
+    #             self.students_button.button.configure(text="Estudiantes        ")
+    #             self.grades_button.button.configure(text="Notas                 ")
+    #             self.schedule_button.button.configure(text="Horario               ")
+    #             self.change_mode_button.button.configure(text="Cambiar modo   ")
+    #             self.logo_label.configure(image=self.logo_img)
+    #             self.responsive = True
 
 
 
@@ -627,11 +598,11 @@ class HomeLayout(ctk.CTkFrame):
         #* ------------------------ Frames
         # Create the body frame
         self.body = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
-        self.body.place(relx=0, rely=0,relwidth=1, relheight=0.75)
+        self.body.place(relx=0.5, rely=0.4,anchor = tk.CENTER,relwidth=0.7, relheight=0.7)
 
         # Create the footer frame
         self.footer = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
-        self.footer.place(relx=0, rely=0.76, relwidth=1, relheight=0.24)
+        self.footer.place(relx=0.5, rely=0.85,anchor = tk.CENTER, relwidth=0.7, relheight=0.2)
 
         #* ------------------------ Body
         # Create The Calendar
@@ -660,7 +631,7 @@ class HomeLayout(ctk.CTkFrame):
 
         # Button to show the events
         self.event_button = ctk.CTkButton(self.body, height=35, text='Eventos', command=self.event, fg_color='#47959b', bg_color='#0d1321', font=('Arial', 15, 'bold'))
-        self.event_button.place(relx=0.5, rely=0.029, anchor=tk.CENTER, relwidth=0.25, relheight=0.058)
+        self.event_button.place(relx=0.5, rely=0.029, anchor=tk.CENTER, relwidth=0.25, relheight=0.05)
 
         # Label to show the event
         self.event_label = ctk.CTkLabel(self.footer, text="", font=('Arial', 15, "bold"), bg_color='transparent', text_color='#000000')
@@ -900,13 +871,229 @@ class HomeLayout(ctk.CTkFrame):
 
 
 
+#^===================================================Teachers Layout
+class TeachersLayout(ctk.CTkFrame):
+    '''Teachers Layout'''
+    def __init__(self, master):
+        super().__init__(
+            master = master,
+            bg_color='#f5f5f5',
+            fg_color='transparent',
+        )
+
+        #* ------------------------ Frames
+        # Create the body frame left
+        self.body_left = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent', border_color='#a1a1a1', border_width=1.3)
+        self.body_left.place(relx=0, rely=0,relwidth=0.45, relheight=0.9)
+
+        # Create the body frame middle
+        self.body_middle = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent',  border_color='#a1a1a1', border_width=1.3)
+        self.body_middle.place(relx=0.4525, rely=0,relwidth=0.245, relheight=0.9)
+
+        # Create the body frame right
+        self.body_right = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent',  border_color='#a1a1a1', border_width=1.3)
+        self.body_right.place(relx=0.7, rely=0,relwidth=0.3, relheight=0.9)
+
+        # Create the Footer frame
+        self.footer = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
+        self.footer.place(relx=0, rely=0.9, relwidth=1, relheight=0.1)
+
+
+        #* ------------------------ Body Left
+        # Create the entry frame Nombre Profesor
+        self.name_teacher = EntryFrame(self.body_left, 300, 50,"Nombre del Profesor", placeholder="Nombre", layout=2)
+        self.name_teacher.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Apellido Profesor
+        self.lname_teacher = EntryFrame(self.body_left, 300, 50,"Apellido del Profesor", placeholder="Apellido", layout=2)
+        self.lname_teacher.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Cedula Profesor
+        self.id_teacher = EntryFrame(self.body_left, 300, 50,"Cedula del Profesor ", placeholder="Cedula", layout=2)
+        self.id_teacher.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Fecha de Nacimiento Profesor
+        self.date_entry = EntryFrame(self.body_left, 280, 50,"Fecha de Nacimiento", placeholder="Fecha de Nacimiento", layout=2, another=True, command=lambda: HomeLayout.datepicker(self, self))
+        self.date_entry.grid(row=3, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Telefono Profesor
+        self.phone_teacher = EntryFrame(self.body_left, 260, 50,"Telefono del Profesor", placeholder="Telefono", layout=3)
+        self.phone_teacher.grid(row=4, column=0, pady=5, padx=20, sticky='w')
+
+
+        # Create the entry frame Correo Profesor
+        self.email_teacher = EntryFrame(self.body_left, 350, 50,"Correo del Profesor", placeholder="Correo")
+        self.email_teacher.grid(row=5, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Direccion Profesor
+        self.address_teacher = EntryFrame(self.body_left, 300, 50,"Direccion del Profesor", placeholder="Direccion")
+        self.address_teacher.grid(row=6, column=0, pady=5, padx=20, sticky='w')
+
+
+        #* ------------------------ Body Middle
+        # Create the label for the tittle
+        self.tittle_label_img = ctk.CTkLabel(self.body_middle, text="Copia Del Titulo", font=('Arial', 20, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle_label_img.grid(row=0, column=0, pady=5, padx=20, sticky='n')
+
+        # add padding to the tittle
+        self.body_middle.grid_rowconfigure(0, pad=20)
+
+        # Create the button to add the college_degree
+        self.college_degree_button = ctk.CTkButton(self.body_middle, width=100, height=34, text='Agregar', command= self.add_college_degree, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.college_degree_button.grid(row=1, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the button to view the college_degree
+        self.view_college_degree_button = ctk.CTkButton(self.body_middle, width=100, height=34, text='Ver', command= self.view_college_degree, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.view_college_degree_button.grid(row=2, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the button to delete the college_degree
+        self.delete_college_degree_button = ctk.CTkButton(self.body_middle, width=100, height=34, text='Eliminar', command= self.delete_college_degree, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.delete_college_degree_button.grid(row=3, column=0, pady=5, padx=20, sticky='n')
+
+        # add padding to the buttons
+        self.body_middle.grid_rowconfigure(3, pad=50)
+
+        # Create the preview tittle
+        self.label_preview = ctk.CTkLabel(self.body_middle, text="Vista Previa", font=('Arial', 20, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.label_preview.grid(row=4, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the preview label
+        self.previmg = ctk.CTkImage(Image.open('Nibble/recursos/icons/preview.png'), size=(200,250))
+        self.preview = ctk.CTkLabel(self.body_middle, text="", bg_color='transparent', image=self.previmg, fg_color='transparent', font=('Arial', 1))
+        self.preview.grid(row=5, column=0, pady=5, padx=20, sticky='n')
+
+        # center the body_middle
+        self.body_middle.grid_columnconfigure(0, weight=1)
+
+
+        #* ------------------------ Body Right
+        # Create the label for the tittle
+        self.tittle_label = ctk.CTkLabel(self.body_right, text="Asignar Materia", font=('Arial', 20, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle_label.grid(row=0, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the entry frame Cedula
+        self.ci_teacher = EntryFrame(self.body_right, 300, 50,"Cedula del Profesor", placeholder="Cedula")
+        self.ci_teacher.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+
+        #TODO - Cambiar el textbox por un combobox
+        # Create the entry frame Materia
+        self.subject_teacher = EntryFrame(self.body_right, 300, 50,"Materia", placeholder="Materia")
+        self.subject_teacher.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the button to asign the subject
+        self.asign_button = ctk.CTkButton(self.body_right, width=100, height=34, text='Asignar', command=self.asign_subject, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.asign_button.grid(row=3, column=0, pady=5, padx=20, sticky='n')
+
+
+        #* ------------------------ Footer
+        # Create the Search bar
+        self.search_bar = EntryFrame(self.footer, 500, 50,"Buscar", placeholder="Cedula Profesor", layout=2, another=True)
+        self.search_bar.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the button to add the teacher
+        self.add_button = ctk.CTkButton(self.footer, width=100, height=34, text='Agregar', command=self.add_teacher, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.add_button.grid(row=0, column=3, pady=5, padx=20, sticky='s')
+
+        # Create the button to save the teacher
+        self.save_button = ctk.CTkButton(self.footer, width=100, height=34, text='Guardar', command=self.save_teacher, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.save_button.grid(row=0, column=2, pady=5, padx=20, sticky='s')
+
+        # Create the button to delete the teacher
+        self.delete_button = ctk.CTkButton(self.footer, width=100, height=34, text='Eliminar', command=self.delete_teacher, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.delete_button.grid(row=0, column=1, pady=5, padx=20, sticky='s')
+
+        self.footer.grid_columnconfigure(0, weight=1)
+
+
+
+
+
+        #* ------------------------ Functions
+    def add_college_degree(self):
+        '''Add the college degree img to the button'''
+        img_dir = filedialog.askopenfilename(initialdir='/', title='Select a file', filetypes=(('png files', '*.png'), ('jpg files', '*.jpg'), ('jpeg files', '*.jpeg')))
+        if img_dir != '':
+            img_degree = ctk.CTkImage(Image.open(img_dir), size=(200,250))
+            self.preview.configure(image=img_degree, text=img_dir) #TODO - delete the text
+
+    def view_college_degree(self):
+        '''Show the college degree img'''
+        if self.preview.cget('image') != self.previmg:
+            window = tk.Toplevel(
+                            master=self,
+                            bg='#2c313c',
+                            )
+            window.title('Preview') # Set the title of the app
+            window.iconbitmap('Nibble/recursos/logo/Nibble.ico')
+            window.resizable(False, False)
+            window.state('zoomed')
+
+            # Create the image
+            img_show = self.preview.cget('text') #TODO - Get the image from the database
+            img_show = ctk.CTkImage(Image.open(img_show), size=(900, window.winfo_screenheight() - 50))
+
+
+
+
+            # Create the label
+            label = ctk.CTkLabel(window, image=img_show, bg_color='transparent', fg_color='transparent', text='')
+            label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        else:
+            messagebox.showerror('Error', 'No hay ninguna imagen', parent=self)
+
+    def delete_college_degree(self):
+        self.preview.configure(image=self.previmg, text='')
+        #TODO - Delete the college degree from the database
+
+
+    def asign_subject(self):
+        pass
+
+    def add_teacher(self):
+        pass
+
+    def save_teacher(self):
+        pass
+
+    def delete_teacher(self):
+        pass
+
+
+#^===================================================Students Layout
+class StudentsLayout(ctk.CTkFrame):
+    '''Students Layout'''
+    pass
+
+
+
+#^===================================================Grades Layout
+class GradesLayout(ctk.CTkFrame):
+    '''Grades Layout'''
+    pass
+
+
+
+#^===================================================Schedule Layout
+class ScheduleLayout(ctk.CTkFrame):
+    '''Schedule Layout'''
+    pass
+
+
+
+
+
+
+
+
+
 
 #$------------------------ Main App
 App=ctk.CTk()
 App.title('Nibble') # Set the title of the app
 App.iconbitmap('Nibble/recursos/logo/Nibble.ico') # Set the icon of the app
 App.after(50, lambda: App.state('zoomed')) # Maximize the app
-App.minsize(900, 700) # Set the minimum size of the app
+# App.minsize(900, 700) # Set the minimum size of the app
+App.after(50, lambda: App.resizable(False,False)) # Minimize the app
 
 
 #*------------------------ Img background from login section
