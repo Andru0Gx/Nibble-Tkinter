@@ -4,27 +4,29 @@
 
 ## Pantallas
 ```md
-1. Pantalla de seleccion de modo
-2. Pantalla de inicio de sesion
-3. Pantalla de registro
+1. Pantalla de inicio de sesion
+2. Pantalla de registro
+3. Pantalla de Seleccion de usuario/contraseña
 4. Pantalla de recuperar usuario
 5. Pantalla de recuperar contraseña
-6. Pantalla de inicio
-7. Pantalla de profesores
-8. Pantalla de estudiantes y representantes
-9. Pantalla de notas
-10. Pantalla de horarios
-11. Pantalla de Configuraciones
+6. Pantalla de seleccion de modo
+7. Pantalla de inicio
+8. Pantalla de profesores
+9. Pantalla de estudiantes y representantes
+10. Pantalla de notas
+11. Pantalla de horarios
+12. Pantalla de Configuraciones
 ```
  
 ## Diseño de las pantallas
 
 <div align="center">
-    <img src="recursos-readme/Pantalla-1.jpg" alt="Pantalla de seleccion de modo" width = 400 title= "Pantalla de seleccion de modo"/>
-    <img src="recursos-readme/Pantalla-2.jpg" alt="Pantalla de inicio de sesion" width = 400 title= "Pantalla de inicio de sesion" />
-    <img src="recursos-readme/Pantalla-3.jpg" alt="Pantalla de registro" width = 400 title= "Pantalla de registro"/>
-    <img src="recursos-readme/Pantalla-4.jpg" alt="Pantalla de recuperar usuario" width = 400 title= "Pantalla de recuperar usuario"/>
-    <img src="recursos-readme/Pantalla-5.jpg" alt="Pantalla de recuperar contraseña" width = 400 title= "Pantalla de recuperar contraseña"/>
+    <img src="recursos-readme/Pantalla-1.jpg" alt="Pantalla de inicio de sesion" width = 400 title= "Pantalla de inicio de sesion"/>
+    <img src="recursos-readme/Pantalla-2.jpg" alt="Pantalla de registro" width = 400 title= "Pantalla de registro" />
+    <img src="recursos-readme/Pantalla-1-3.jpg" alt="Pantalla de Seleccion de usuario/contraseña" width = 400 title= "Pantalla de Seleccion de usuario/contraseña"/>
+    <img src="recursos-readme/Pantalla-3.jpg" alt="Pantalla de recuperar usuario" width = 400 title= "Pantalla de recuperar usuario"/>
+    <img src="recursos-readme/Pantalla-4.jpg" alt="Pantalla de recuperar contraseña" width = 400 title= "Pantalla de recuperar contraseña"/>
+    <img src="recursos-readme/Pantalla-5.jpg" alt="Pantalla de seleccion de modo" width = 400 title= "Pantalla de seleccion de modo"/>
 </div>
 
 <div align="center">
@@ -45,10 +47,4 @@
 </a>
 <a href="https://github.com/Jose-Urbano">
   <img src="https://avatars.githubusercontent.com/u/117106250?v=4" width=50 style="border-radius: 50%">
-</a>
-<a href="https://github.com/ExodialGamer">
-  <img src="https://avatars.githubusercontent.com/u/71797766?v=4" width=50 style="border-radius: 50%">
-</a>
-<a href="https://github.com/CapitanGogeta">
-  <img src="https://avatars.githubusercontent.com/u/118919767?v=4" width=50 style="border-radius: 50%">
 </a>
