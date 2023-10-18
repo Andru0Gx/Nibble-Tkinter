@@ -9,9 +9,8 @@ import customtkinter as ctk # Import the customtkinter module
 from modules import EntryFrame, ButtonFrame, EventsFrame # Import the Sections class from modules.py
 from PIL import Image, ImageTk # Import the Image modules from PIL
 
-#TODO - Sidebar con 2 layouts (pequeño y grande), el pequeño tiene los iconos y el grande tiene los textos + iconos
 #TODO - Los credenciales hay que programarlos al final con la Base de datos
-#TODO - Si la ventana esta en zoomed, no verificar el layout, pero si esta en normal, verificar el layout (tamaño)
+#TODO - Eliminar el modo de seleccion 
 
 #$------------------------ Functions
 #^===================================================Back to login
@@ -922,11 +921,11 @@ class TeachersLayout(ctk.CTkFrame):
 
 
         # Create the entry frame Correo Profesor
-        self.email_teacher = EntryFrame(self.body_left, 350, 50,"Correo del Profesor", placeholder="Correo")
+        self.email_teacher = EntryFrame(self.body_left, 510, 50,"Correo del Profesor", placeholder="Correo")
         self.email_teacher.grid(row=5, column=0, pady=5, padx=20, sticky='w')
 
         # Create the entry frame Direccion Profesor
-        self.address_teacher = EntryFrame(self.body_left, 300, 50,"Direccion del Profesor", placeholder="Direccion")
+        self.address_teacher = EntryFrame(self.body_left, 510, 50,"Direccion del Profesor", placeholder="Direccion")
         self.address_teacher.grid(row=6, column=0, pady=5, padx=20, sticky='w')
 
 
@@ -958,7 +957,7 @@ class TeachersLayout(ctk.CTkFrame):
         self.label_preview.grid(row=4, column=0, pady=5, padx=20, sticky='n')
 
         # Create the preview label
-        self.previmg = ctk.CTkImage(Image.open('Nibble/recursos/icons/preview.png'), size=(200,250))
+        self.previmg = ctk.CTkImage(Image.open('Nibble/recursos/icons/preview.png'), size=(150,150))
         self.preview = ctk.CTkLabel(self.body_middle, text="", bg_color='transparent', image=self.previmg, fg_color='transparent', font=('Arial', 1))
         self.preview.grid(row=5, column=0, pady=5, padx=20, sticky='n')
 
@@ -1062,7 +1061,150 @@ class TeachersLayout(ctk.CTkFrame):
 #^===================================================Students Layout
 class StudentsLayout(ctk.CTkFrame):
     '''Students Layout'''
-    pass
+    def __init__(self, master):
+        super().__init__(
+            master = master,
+            bg_color='#f5f5f5',
+            fg_color='transparent',
+        )
+        #* ------------------------ Frames
+        # Create the body frame left
+        self.body_left = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent', border_color='#a1a1a1', border_width=1.3)
+        self.body_left.place(relx=0, rely=0,relwidth=0.49, relheight=0.9)
+
+        # Create the body frame right
+        self.body_right = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent', border_color='#a1a1a1', border_width=1.3)
+        self.body_right.place(relx=0.5, rely=0,relwidth=0.5, relheight=0.9)
+
+        # Create the buttons frame for body right
+        self.buttons_frame = ctk.CTkFrame(self.body_right, fg_color='transparent', bg_color='transparent')
+        self.buttons_frame.place(relx=0.05, rely=0.4,relwidth=0.9, relheight=0.1)
+
+        # Create the Footer frame
+        self.footer = ctk.CTkFrame(self, fg_color='transparent', bg_color='transparent')
+        self.footer.place(relx=0, rely=0.9, relwidth=1, relheight=0.1)
+
+        #* ------------------------ Body Left
+        # Create the label for the tittle
+        self.tittle_label_student = ctk.CTkLabel(self.body_left, text="Registrar Estudiante", font=('Arial', 20, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle_label_student.grid(row=0, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the entry frame Nombre Estudiante
+        self.name_student = EntryFrame(self.body_left, 350, 50,"Nombre del Estudiante", placeholder="Nombre", layout=2)
+        self.name_student.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Apellido Estudiante
+        self.lname_student = EntryFrame(self.body_left, 350, 50,"Apellido del Estudiante", placeholder="Apellido", layout=2)
+        self.lname_student.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Cedula Estudiante
+        self.id_student = EntryFrame(self.body_left, 350, 50,"Cedula del Estudiante ", placeholder="Cedula", layout=2)
+        self.id_student.grid(row=3, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Fecha de Nacimiento Estudiante 
+        self.date_entry = EntryFrame(self.body_left, 330, 50,"Fecha de Nacimiento", placeholder="Fecha de Nacimiento", layout=2, another=True, command=lambda: HomeLayout.datepicker(self, self))
+        self.date_entry.grid(row=4, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Telefono Estudiante
+        self.phone_student = EntryFrame(self.body_left, 280, 50,"Contactos", placeholder="Telefono", layout=3)
+        self.phone_student.grid(row=5, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame address Estudiante
+        self.address_student = EntryFrame(self.body_left, 580, 50,"Direccion del Estudiante", placeholder="Direccion")
+        self.address_student.grid(row=6, column=0, pady=5, padx=20, sticky='w')
+        
+        # Create the entry frame date of admission
+        self.date_admission = EntryFrame(self.body_left, 300, 50,"Fecha de Ingreso", placeholder="Fecha de Ingreso", layout=2, another=True, command=lambda: HomeLayout.datepicker(self, self))
+        self.date_admission.grid(row=7, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame grade
+        self.grade = EntryFrame(self.body_left, 300, 50,"Etapa (Año/Grado)", placeholder="Año/Grado", layout=2)
+        self.grade.grid(row=8, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the button to change the grade
+        self.change_grade_button = ctk.CTkButton(self.body_left, width=100, height=34, text='Cambiar Etapa', command=self.change_grade, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.change_grade_button.grid(row=9, column=0, pady=5, padx=20, sticky='w')
+
+        #* ------------------------ Body Right
+
+        # Create the label for the tittle
+        self.tittle_label_Parent = ctk.CTkLabel(self.body_right, text="Registrar Representante", font=('Arial', 20, "bold"), bg_color='transparent', fg_color=None,text_color='#243233')
+        self.tittle_label_Parent.grid(row=0, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the entry frame Nombre Representante
+        self.name_parent = EntryFrame(self.body_right, 450, 50,"Nombre", placeholder="Nombre Representante", layout=2)
+        self.name_parent.grid(row=1, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Apellido Representante
+        self.lname_parent = EntryFrame(self.body_right, 450, 50,"Apellido", placeholder="Apellido Representante", layout=2)
+        self.lname_parent.grid(row=2, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Cedula Representante
+        self.id_parent = EntryFrame(self.body_right, 450, 50,"Cedula  ", placeholder="Cedula Representante", layout=2, another=True)
+        self.id_parent.grid(row=3, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the entry frame Telefono Representante
+        self.phone_parent = EntryFrame(self.body_right, 450, 50,"Telefono", placeholder="Telefono Representante", layout=2)
+        self.phone_parent.grid(row=4, column=0, pady=5, padx=20, sticky='w')
+
+        #* ------------------------ Buttons frame
+
+        # Create the button to add the parent
+        self.add_parent_button = ctk.CTkButton(self.buttons_frame, width=100, height=34, text='Agregar', command=self.add_parent, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.add_parent_button.grid(row=0, column=0, pady=5, padx=20, sticky='n')
+
+        # Create the button to eliminate the parent
+        self.delete_parent_button = ctk.CTkButton(self.buttons_frame, width=100, height=34, text='Eliminar', command=self.delete_parent, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.delete_parent_button.grid(row=0, column=1, pady=5, padx=20, sticky='n')
+
+        # center the buttons
+        self.buttons_frame.grid_columnconfigure(0, weight=1)
+        self.buttons_frame.grid_columnconfigure(1, weight=1)
+
+        #* ------------------------ Footer
+        # Create the Search bar
+        self.search_bar = EntryFrame(self.footer, 500, 50,"Buscar", placeholder="Cedula Estudiante", layout=2, another=True)
+        self.search_bar.grid(row=0, column=0, pady=5, padx=20, sticky='w')
+
+        # Create the button to add the student
+        self.add_button = ctk.CTkButton(self.footer, width=100, height=34, text='Agregar', command=self.add_student, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.add_button.grid(row=0, column=3, pady=5, padx=20, sticky='s')
+
+        # Create the button to save the student
+        self.save_button = ctk.CTkButton(self.footer, width=100, height=34, text='Guardar', command=self.save_student, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.save_button.grid(row=0, column=2, pady=5, padx=20, sticky='s')
+
+        # Create the button to delete the student
+        self.delete_button = ctk.CTkButton(self.footer, width=100, height=34, text='Eliminar', command=self.delete_student, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.delete_button.grid(row=0, column=1, pady=5, padx=20, sticky='s')
+
+        # Create the button to change view
+        self.change_view_button = ctk.CTkButton(self.footer, width=100, height=34, text='Cambiar vista', command=self.change_view, font=('Arial', 15, 'bold'), bg_color='transparent', fg_color="#47959b", text_color='#ffffff', corner_radius=10)
+        self.change_view_button.grid(row=0, column=4, pady=5, padx=20, sticky='s')
+
+
+        #* ------------------------ Functions
+    def change_grade(self):
+        pass
+
+    def add_parent(self):
+        pass
+
+    def delete_parent(self):
+        pass
+
+    def add_student(self):
+        pass
+
+    def save_student(self):
+        pass
+
+    def delete_student(self):
+        pass
+
+    def change_view(self):
+        pass
+
 
 
 
